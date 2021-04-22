@@ -1,27 +1,44 @@
 import React, { useState } from 'react';
 import { Text, View, TextInput, Button } from 'react-native';
-import { createStackNavigator } from '@react-navigation/stack';
+import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
-import AddLandingScreen from '../AddLanding/AddLanding.jsx';
-import AddImageScreen from '../AddImage/AddImage.jsx';
 import AddLinkScreen from '../AddLink/AddLink.jsx';
+import AddImageScreen from '../AddImage/AddImage.jsx';
 import AddTextScreen from '../AddText/AddText.jsx';
 
-const Stack = createStackNavigator();
-const EmptyScreen = () => {
-  return ( null );
-};
+const Tab = createMaterialBottomTabNavigator();
 
 export default function AddRecipe ( { navigation } ) {
 
 
   return (
-    <Stack.Navigator initialRouteName='Add Recipe Landing'>
-      <Stack.Screen name='Add Landing' component={ AddLandingScreen } />
-      <Stack.Screen name='Add Image' component={ AddImageScreen } />
-      <Stack.Screen name='Add Link' component={ AddLinkScreen } />
-      <Stack.Screen name='Add Text' component={ AddTextScreen } />
-    </Stack.Navigator>
+    <Tab.Navigator initialRouteName='Add Link' labeled={ false } >
+      <Tab.Screen name='Add Link'
+        component={ AddLinkScreen }
+        options={ {
+          tabBarIcon: ( { color, size } ) => (
+            <MaterialCommunityIcons name='home-variant' color={ color } size={ 26 } />
+          )
+        } }
+      />
+      <Tab.Screen name='Add Image'
+        component={ AddImageScreen }
+        options={ {
+          tabBarIcon: ( { color, size } ) => (
+            <MaterialCommunityIcons name='home-variant' color={ color } size={ 26 } />
+          )
+        } }
+      />
+      <Tab.Screen name='Add Text'
+        component={ AddTextScreen }
+        options={ {
+          tabBarIcon: ( { color, size } ) => (
+            <MaterialCommunityIcons name='home-variant' color={ color } size={ 26 } />
+          )
+        } }
+      />
+    </ Tab.Navigator>
 
   );
 }

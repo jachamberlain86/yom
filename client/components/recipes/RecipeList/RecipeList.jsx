@@ -2,11 +2,13 @@ import React from 'react';
 import { Text, View } from 'react-native';
 import { useSelector } from 'react-redux';
 
-export default function RecipeList () {
+import RecipeCard from '../RecipeCard/RecipeCard.jsx';
+
+export default function RecipeList ( { navigation } ) {
   const recipes = useSelector( state => state.recipes );
 
   const renderedRecipes = recipes.map( recipe => (
-    <Text key={ recipe.title }>{ recipe.title }</Text>
+    <RecipeCard key={ recipe.id } recipe={ recipe } navigation={ navigation } />
   ) );
 
   return (

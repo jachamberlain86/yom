@@ -30,7 +30,9 @@
     "react-native-vector-icons": "^8.1.0",
     "react-native-web": "~0.13.12",
     "react-redux": "^7.2.3",
-    "redux": "^4.0.5"
+    "redux": "^4.0.5",
+    "pluralize": "^8.0.0",
+    "pretty-ms": "^7.0.1"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0"

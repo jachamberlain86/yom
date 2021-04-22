@@ -7,7 +7,7 @@ export default function AddLink () {
 
   return (
     <View style={ { flex: 1, justifyContent: 'center', alignItems: 'center' } }>
-      <Text>Recipe List</Text>
+      <Text>Upload a recipe</Text>
     </View>
   );
 }

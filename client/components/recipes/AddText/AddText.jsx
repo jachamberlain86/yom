@@ -15,7 +15,6 @@ export default function AddText () {
   const [ dateAdded, setDateAdded ] = useState( '' );
   const [ rating, setRating ] = useState( null );
   const [ inPlan, setInPlan ] = useState( false );
-  const [ favourite, setFavourite ] = useState( false );
 
 
   return (

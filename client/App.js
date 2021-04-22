@@ -30,6 +30,8 @@ import RegisterScreen from './components/auth/Register/Register.jsx';
 import DashboardScreen from './components/main/Dashboard/Dashboard.jsx';
 import RecipeBookScreen from './components/main/RecipeBook/RecipeBook.jsx';
 import MealPlanScreen from './components/main/MealPlan/MealPlan.jsx';
+import AddRecipeScreen from './components/recipes/AddRecipe/AddRecipe.jsx';
+import RecipeItemScreen from './components/recipes/RecipeItem/RecipeItem.jsx';
 
 const Stack = createStackNavigator();
 
@@ -72,6 +74,8 @@ export default function App () {
           <Stack.Screen name='Dashboard' component={ DashboardScreen } />
           <Stack.Screen name='Recipe Book' component={ RecipeBookScreen } />
           <Stack.Screen name='Meal Plan' component={ MealPlanScreen } />
+          <Stack.Screen name='Add Recipe' component={ AddRecipeScreen } />
+          <Stack.Screen name='Recipe Item' component={ RecipeItemScreen } />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>

@@ -7,6 +7,9 @@ import RecipeListScreen from '../../recipes/RecipeList/RecipeList.jsx';
 import AddRecipeScreen from '../../recipes/AddRecipe/AddRecipe.jsx';
 
 const Tab = createMaterialBottomTabNavigator();
+const EmptyScreen = () => {
+  return ( null );
+};
 
 export default function RecipeBook () {
   return (
@@ -18,7 +21,13 @@ export default function RecipeBook () {
           )
         } }
       />
-      <Tab.Screen name='Add Recipe' component={ AddRecipeScreen }
+      <Tab.Screen name='Add Recipe Container' component={ EmptyScreen }
+        listeners={ ( { navigation } ) => ( {
+          tabPress: event => {
+            event.preventDefault();
+            navigation.navigate( 'Add Recipe' );
+          }
+        } ) }
         options={ {
           tabBarIcon: ( { color, size } ) => (
             <MaterialCommunityIcons name='home-variant' color={ color } size={ 26 } />
