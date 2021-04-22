@@ -13,7 +13,18 @@ export default function Register () {
         .doc( firebase.auth().currentUser.uid )
         .set( {
           name,
-          email
+          email,
+          unitPref: 'metric',
+          themePref: 'auto',
+          recipes: [],
+          plans: {
+            current: [],
+            next: []
+          },
+          lists: {
+            current: [],
+            previous: []
+          }
         } );
       console.log( result );
     } catch ( err ) {
