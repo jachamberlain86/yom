@@ -1,8 +1,24 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 
-export const recipesSlice = createSlice( {
+export const updateRecipe = createAsyncThunk('recipes/recipeStateChange', async () => {
+  try {
+    const recipe = firebase.firestore().collection('users')
+      .doc(firebase.auth().currentUser.uid).collection('recipes').add()
+
+    const user = await firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).get()
+    if (user.exists) {
+      return user.data()
+    } else {
+      console.log('User doesn\'t exist')
+    }
+  } catch (err) {
+    console.log(err)
+  }
+})
+
+export const recipesSlice = createSlice({
   name: 'recipes',
-  initialState: [ {
+  initialState: [{
     id: '1234567890',
     title: 'tasty cheese',
     servingSize: {
@@ -14,15 +30,15 @@ export const recipesSlice = createSlice( {
       {
         ingredient: 'cheese',
         modifier: 'grated',
-        metric: {
+        UK: {
           quantity: 100,
           unit: 'gram'
         },
-        imperial: {
+        US: {
           quantity: 3.5,
           unit: 'ounce'
         },
-        aisle: 'diary',
+        aisle: 'diary'
       }
     ],
     steps: [
@@ -45,22 +61,14 @@ export const recipesSlice = createSlice( {
     rating: null,
     inPlan: false,
     dateAdded: ''
-  } ],
+  }],
   reducers: {
-    toggleInPlan: {
-      reducer ( state, action ) {
-      },
-      prepare ( inPlan ) {
-        return {
-          payload: {
-            inPlan
-          }
-        };
-      }
+    recipeAdded (state, action) {
+      state.push(action.payload)
     }
   }
-} );
+})
 
-export const { toggleInPlan } = recipesSlice.actions;
+export const { recipeAdded } = recipesSlice.actions
 
-export default recipesSlice.reducer;
+export default recipesSlice.reducer

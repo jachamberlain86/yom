@@ -2,36 +2,58 @@ import React, { useState } from 'react'
 import { Text, View, TextInput, Button, Picker, ScrollView } from 'react-native'
 import pluralize from 'pluralize'
 import { formatRecipeFromText } from '../../../controllers/recipe.js'
-import { useDispatch } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { nanoid } from '@reduxjs/toolkit'
 import { recipeAdded } from '../../../features/Recipes/recipesSlice.js'
 
-export default function AddText ({ navigation }) {
+export default function EditRecipe ({ route, navigation }) {
   const dispatch = useDispatch()
+  const currentUser = useSelector(state => state.user.currentUser)
+  const { recipe } = route.params
 
-  const [title, setTitle] = useState('')
-  const [servingSize, setServingSize] = useState({ number: 0, type: 'SERVES' })
-  const [timeMinutes, setTimeMinutes] = useState(0)
-  const [ingredients, setIngredients] = useState([])
-  const [steps, setSteps] = useState([])
-  const [notes, setNotes] = useState('')
-  const [source, setSource] = useState('')
-  const [tags, setTags] = useState([])
-  const [rating, setRating] = useState(null)
+  const [title, setTitle] = useState(recipe.title)
+  const [servingSize, setServingSize] = useState({ ...recipe.servingSize })
+  const [timeMinutes, setTimeMinutes] = useState(recipe.timeMinutes)
+  const [ingredients, setIngredients] = useState([...recipe.ingredients])
+  const [steps, setSteps] = useState([...recipe.steps])
+  const [notes, setNotes] = useState(recipe.notes)
+  const [source, setSource] = useState(recipe.source)
+  const [tags, setTags] = useState([...recipe.tags])
+  const [rating, setRating] = useState(recipe.rating)
 
   const [showIngredientForm, setShowIngredientForm] = useState(false)
   const [ingredient, setIngredient] = useState('')
 
   const [showStepForm, setShowStepForm] = useState(false)
   const [step, setStep] = useState({
-    number: 1,
+    number: steps.length
+      ? steps[steps.length - 1].number + 1
+      : 1,
     instruction: ''
   })
 
   const [showTagForm, setShowTagForm] = useState(false)
   const [tag, setTag] = useState('')
 
-  const renderedIngredients = ingredients.map(ingredientObj => <Text key={ingredientObj}> - {ingredientObj}</Text>)
+  const renderedIngredients = ingredients.map(ingredientObj => {
+    const units = ['ml', 'l', 'g', 'kg', 'cm', 'mm', 'fl oz', 'cup', 'pt', 'qt', 'gal', 'lb', 'oz', 'in']
+    if (!ingredientObj[currentUser.unitPref].unit) {
+      const pluralIngredient = pluralize(ingredientObj.name, ingredientObj[currentUser.unitPref].amount)
+      return (
+        <Text key={ingredientObj.id}> - {ingredientObj[currentUser.unitPref].amount} {ingredientObj.modifiers.join(' ')} {pluralIngredient}</Text>
+      )
+    } else if (!units.includes(ingredientObj[currentUser.unitPref].unit)) {
+      const pluralUnit = pluralize(ingredientObj[currentUser.unitPref].unit, ingredientObj[currentUser.unitPref].amount, true)
+      return (
+        <Text key={ingredientObj.id}> - {pluralUnit} {ingredientObj.modifiers.join(' ')} {ingredientObj.name}</Text>
+      )
+    } else {
+      return (
+        <Text key={ingredientObj.id}> - {ingredientObj[currentUser.unitPref].amount}{ingredientObj[currentUser.unitPref].unit} {ingredientObj.modifiers.join(' ')} {ingredientObj.name}</Text>
+      )
+    }
+  }
+  )
 
   const renderedSteps = steps.map(stepObj => {
     return (
@@ -49,21 +71,6 @@ export default function AddText ({ navigation }) {
       </View>
     )
   })
-
-  function clearRecipeForm () {
-    clearIngredientForm()
-    clearStepForm()
-    clearTagForm()
-    setTitle('')
-    setServingSize({ number: 0, type: 'SERVES' })
-    setTimeMinutes(0)
-    setIngredients([])
-    setSteps([])
-    setNotes('')
-    setSource('')
-    setTags([])
-    setRating(null)
-  }
 
   function clearIngredientForm () {
     setIngredient('')
@@ -100,7 +107,8 @@ export default function AddText ({ navigation }) {
   }
 
   async function handleSaveRecipe () {
-    const recipe = {
+    const editedRecipe = {
+      ...recipe,
       title,
       servingSize,
       timeMinutes,
@@ -112,12 +120,13 @@ export default function AddText ({ navigation }) {
       rating
     }
     try {
-      const formattedRecipe = await formatRecipeFromText(recipe)
-      formattedRecipe.id = nanoid()
-      dispatch(
-        recipeAdded(formattedRecipe)
-      )
-      clearRecipeForm()
+      const formattedRecipe = await formatRecipeFromText(editedRecipe)
+      if (!formattedRecipe.id) {
+        formattedRecipe.id = nanoid()
+        dispatch(
+          recipeAdded(formattedRecipe)
+        )
+      }
       navigation.navigate('Recipe List')
     } catch (err) {
       console.log(err)
@@ -184,7 +193,7 @@ export default function AddText ({ navigation }) {
       )
     : (
       <Button
-        title='ADD INGREDIENT'
+        title='EDIT INGREDIENTS'
         onPress={() => setShowIngredientForm(true)}
       />
       )
@@ -201,7 +210,7 @@ export default function AddText ({ navigation }) {
       )
     : (
       <Button
-        title='ADD STEP'
+        title='EDIT STEPS'
         onPress={() => setShowStepForm(true)}
       />
       )
@@ -218,17 +227,16 @@ export default function AddText ({ navigation }) {
       )
     : (
       <Button
-        title='ADD TAG'
+        title='EDIT TAGS'
         onPress={() => setShowTagForm(true)}
       />
       )
 
   return (
     <ScrollView style={{ flex: 1 }}>
-      <Text>Add Recipe</Text>
       <Text>Title</Text>
       <TextInput
-        placeholder='title'
+        placeholder={title}
         onChangeText={(title) => setTitle(title)}
       />
       <Text>Serving size</Text>
@@ -240,13 +248,13 @@ export default function AddText ({ navigation }) {
         <Picker.Item label='MAKES' value='MAKES' />
       </Picker>
       <TextInput
-        placeholder='serving number'
+        placeholder={servingSize.number}
         keyboardType='numeric'
         onChangeText={(number) => setServingSize({ ...servingSize, number })}
       />
       <Text>Time</Text>
       <TextInput
-        placeholder='time to prepare'
+        placeholder={timeMinutes}
         keyboardType='numeric'
         onChangeText={(timeMinutes) => setTimeMinutes(timeMinutes)}
       />
@@ -264,12 +272,12 @@ export default function AddText ({ navigation }) {
       </View>
       <Text>Notes</Text>
       <TextInput
-        placeholder='additional notes'
+        placeholder={notes}
         onChangeText={(notes) => setNotes(notes)}
       />
       <Text>Source</Text>
       <TextInput
-        placeholder='source'
+        placeholder={source}
         onChangeText={(source) => setSource(source)}
       />
       <View>
