@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Text, View, Pressable, Button } from 'react-native'
+import { Text, View, Pressable, Button, Image } from 'react-native'
 import prettyMilliseconds from 'pretty-ms'
 import { useSelector, useDispatch } from 'react-redux'
 import { selectRecipeById, putRecipe, toggleInMenu } from '../../../features/Recipes/recipesSlice.js'
@@ -8,8 +8,10 @@ import { styles } from '../../../styles/app.jsx'
 export default function RecipeCard ({ navigation, recipe }) {
   const [cardDetails, setCardDetails] = useState(null)
   const [inMenu, setInMenu] = useState(recipe.inMenu)
+  const [image, setImage] = useState(recipe.imageUrl)
   const dispatch = useDispatch()
 
+  console.log(image)
   const timeMilliseconds = recipe.timeMinutes * 60000
   const prettyTime = prettyMilliseconds(timeMilliseconds, { secondsDecimalDigits: 0, verbose: true })
   let renderRating = null
@@ -62,6 +64,7 @@ export default function RecipeCard ({ navigation, recipe }) {
 
   return (
     <View>
+      {image && (<Image source={{ uri: image }} style={{ width: 70, height: 70 }} />)}
       <Pressable
         onPress={() => navigation.navigate('Recipe Item', { recipe })}
         onLongPress={showDetails}

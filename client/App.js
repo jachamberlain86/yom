@@ -3,6 +3,8 @@ import React, { useState, useEffect } from 'react'
 import { Provider } from 'react-redux'
 import store from './app/store.js'
 import EditRecipeScreen from './components/recipes/EditRecipe/EditRecipe.jsx'
+import { styles } from './styles/app.jsx'
+import { useFonts, JosefinSans_600SemiBold } from '@expo-google-fonts/josefin-sans'
 
 import firebase from 'firebase'
 
@@ -18,6 +20,7 @@ import RecipeBookScreen from './components/main/RecipeBook/RecipeBook.jsx'
 import MealPlanScreen from './components/main/MealPlan/MealPlan.jsx'
 import AddRecipeScreen from './components/recipes/AddRecipe/AddRecipe.jsx'
 import RecipeItemScreen from './components/recipes/RecipeItem/RecipeItem.jsx'
+import UploadImageScreen from './components/recipes/UploadImage/UploadImage.jsx'
 
 const firebaseConfig = {
   apiKey: process.env.API_KEY,
@@ -38,6 +41,10 @@ const Stack = createStackNavigator()
 export default function App () {
   const [status, setStatus] = useState({ loggedIn: false, loaded: false })
 
+  const [fontsLoaded] = useFonts({
+    JosefinSans_600SemiBold
+  })
+
   useEffect(() => {
     firebase.auth().onAuthStateChanged((user) => {
       if (!user) {
@@ -48,9 +55,9 @@ export default function App () {
     })
   }, [])
 
-  if (!status.loaded) {
+  if (!status.loaded && !fontsLoaded) {
     return (
-      <View style={styles.container}>
+      <View style={styles.authContainer}>
         <Text>Loading</Text>
       </View>
     )
@@ -76,17 +83,9 @@ export default function App () {
           <Stack.Screen name='Add Recipe' component={AddRecipeScreen} />
           <Stack.Screen name='Recipe Item' component={RecipeItemScreen} />
           <Stack.Screen name='Edit Recipe' component={EditRecipeScreen} />
+          <Stack.Screen name='Upload Image' component={UploadImageScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>
   )
 }
-
-export const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center'
-  }
-})

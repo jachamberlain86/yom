@@ -9,7 +9,7 @@ export const fetchRecipes = createAsyncThunk('recipes/recipeStateChange', async 
     if (!recipes.docs.empty) {
       return recipes.docs.map(doc => doc.data())
     } else {
-      console.log('Recipes doesn\'t exist')
+      console.log('No recipes saved')
     }
   } catch (err) {
     console.log(err)

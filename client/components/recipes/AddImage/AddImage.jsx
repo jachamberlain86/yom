@@ -3,8 +3,8 @@ import { StyleSheet, Text, View, Button, Image } from 'react-native'
 import { Camera } from 'expo-camera'
 import * as ImagePicker from 'expo-image-picker'
 
-export default function AddImage () {
-  const [hasGalleryPermission, setHasGalleryPermission] = useStatus(null)
+export default function AddImage ({ navigation }) {
+  const [hasGalleryPermission, setHasGalleryPermission] = useState(null)
   const [hasCameraPermission, setHasCameraPermission] = useState(null)
   const [camera, setCamera] = useState(null)
   const [image, setImage] = useState(null)
@@ -30,7 +30,7 @@ export default function AddImage () {
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
-      aspect: [4, 3],
+      aspect: [1, 1],
       quality: 1
     })
 
@@ -48,34 +48,61 @@ export default function AddImage () {
     return <Text>No access to camera</Text>
   }
 
-  return (
-    <View style={{ flex: 1 }}>
-      <View style={styles.cameraContainer}>
-        <Camera
-          ref={ref => setCamera(ref)}
-          style={styles.fixedRatio}
-          type={type}
+  const cameraControls = image
+    ? null
+    : (
+      <View style={{ flex: 1 }}>
+        <View style={styles.cameraContainer}>
+          <Camera
+            ref={ref => setCamera(ref)}
+            style={styles.fixedRatio}
+            type={type}
+            ratio='1:1'
+          />
+        </View>
+        <Button
+          title='Change camera'
+          onPress={() => {
+            setType(
+              type === Camera.Constants.Type.back
+                ? Camera.Constants.Type.front
+                : Camera.Constants.Type.back
+            )
+          }}
+        />
+        <Button
+          title='Take picture'
+          onPress={() => { takePicture() }}
+        />
+        <Button
+          title='Pick image from gallery'
+          onPress={() => { pickImage() }}
         />
       </View>
-      <Button
-        title='Change camera'
-        onPress={() => {
-          setType(
-            type === Camera.Constants.Type.back
-              ? Camera.Constants.Type.front
-              : Camera.Constants.Type.back
-          )
-        }}
-      />
-      <Button
-        title='Take picture'
-        onPress={() => { takePicture() }}
-      />
-      <Button
-        title='Pick image from gallery'
-        onPress={() => { pickImage() }}
-      />
-      {image && <Image source={{ uri: image }} style={{ flex: 1 }} />}
+      )
+
+  const selectedImage = image
+    ? (
+      <View style={{ flex: 1 }}>
+        <View style={styles.cameraContainer}>
+          <Image source={{ uri: image }} style={styles.fixedRatio} />
+        </View>
+        <Button
+          title='UPLOAD'
+          onPress={() => { navigation.navigate('Upload Image', { image }) }}
+        />
+        <Button
+          title='CANCEL'
+          onPress={() => setImage(null)}
+        />
+      </View>
+      )
+    : null
+
+  return (
+    <View style={{ flex: 1 }}>
+      {cameraControls}
+      {selectedImage}
     </View>
   )
 }
@@ -87,6 +114,6 @@ const styles = StyleSheet.create({
   },
   fixedRatio: {
     flex: 1,
-    aspectRation: 1
+    aspectRatio: 1
   }
 })

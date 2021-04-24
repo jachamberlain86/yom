@@ -1,34 +1,49 @@
-import React, { useState, setState } from 'react';
-import { View, Button, TextInput } from 'react-native';
-import firebase from 'firebase';
+import React, { useState, setState } from 'react'
+import { View, Text, Button, TextInput, TouchableOpacity } from 'react-native'
+import firebase from 'firebase'
+import { styles } from '../../../styles/app.jsx'
 
 export default function Login () {
-  const [ user, setUser ] = useState( { email: '', password: '' } );
+  const [user, setUser] = useState({ email: '', password: '' })
 
   async function onSignIn () {
-    const { email, password } = user;
+    const { email, password } = user
     try {
-      const result = await firebase.auth().signInWithEmailAndPassword( email, password );
-    } catch ( err ) {
-      console.log( err );
+      await firebase.auth().signInWithEmailAndPassword(email, password)
+    } catch (err) {
+      console.log(err)
     }
   }
 
   return (
-    <View>
+    <View style={styles.authContainer}>
+      <Text
+        style={[styles.fieldHeader, styles.textWhite]}
+      >
+        username
+      </Text>
       <TextInput
+        style={styles.textInput}
         placeholder='email'
-        onChangeText={ ( email ) => setUser( { ...user, email } ) }
+        onChangeText={(email) => setUser({ ...user, email })}
       />
+      <Text
+        style={[styles.fieldHeader, styles.textWhite]}
+      >
+        password
+      </Text>
       <TextInput
+        style={styles.textInput}
         placeholder='password'
-        secureTextEntry={ true }
-        onChangeText={ ( password ) => setUser( { ...user, password } ) }
+        secureTextEntry
+        onChangeText={(password) => setUser({ ...user, password })}
       />
-      <Button
-        onPress={ () => onSignIn() }
-        title='Sign in'
-      />
+      <TouchableOpacity
+        style={[styles.button, styles.buttonWhite]}
+        onPress={() => onSignIn()}
+      >
+        <Text style={[styles.buttonText, styles.textBlack]}>SIGN IN</Text>
+      </TouchableOpacity>
     </View>
-  );
+  )
 }
