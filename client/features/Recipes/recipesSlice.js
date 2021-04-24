@@ -1,36 +1,31 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import firebase from 'firebase'
 
-export const postRecipe = createAsyncThunk('recipes/recipeAdded', async () => {
-  try {
-    const recipe = firebase.firestore().collection('users')
-      .doc(firebase.auth().currentUser.uid).collection('recipes').add()
-
-    const user = await firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).get()
-    if (user.exists) {
-      return user.data()
-    } else {
-      console.log('User doesn\'t exist')
+export const postRecipe = createAsyncThunk(
+  'recipes/recipeAdded',
+  async recipe => {
+    try {
+      console.log('this called')
+      const response = await firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid)
+        .collection('recipes').doc(recipe.id).set(recipe)
+      console.log('response ', response)
+    } catch (err) {
+      console.log(err)
     }
-  } catch (err) {
-    console.log(err)
-  }
-})
-export const putRecipe = createAsyncThunk('recipes/recipeUpdated', async () => {
-  try {
-    const recipe = firebase.firestore().collection('users')
-      .doc(firebase.auth().currentUser.uid).collection('recipes').add()
+  })
 
-    const user = await firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).get()
-    if (user.exists) {
-      return user.data()
-    } else {
-      console.log('User doesn\'t exist')
+export const putRecipe = createAsyncThunk(
+  'recipes/recipeUpdated',
+  async recipe => {
+    try {
+      console.log('this called')
+      const response = await firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid)
+        .collection('recipes').doc(recipe.id).set(recipe)
+      console.log('response ', response)
+    } catch (err) {
+      console.log(err)
     }
-  } catch (err) {
-    console.log(err)
-  }
-})
+  })
 
 export const recipesSlice = createSlice({
   name: 'recipes',
@@ -92,10 +87,19 @@ export const recipesSlice = createSlice({
         }
       }
     },
-    recipeUpdated (state, action) {
-      const recipe = action.payload
-      let existingRecipe = state.find(oldRecipe => oldRecipe.id === recipe.id)
-      if (existingRecipe) existingRecipe = recipe
+    recipeUpdated: {
+      reducer (state, action) {
+        const recipe = action.payload
+        let existingRecipe = state.find(oldRecipe => oldRecipe.id === recipe.id)
+        if (existingRecipe) existingRecipe = recipe
+      },
+      prepare (recipe) {
+        return {
+          payload: {
+            recipe
+          }
+        }
+      }
     }
   }
 })

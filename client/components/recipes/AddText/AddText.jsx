@@ -4,7 +4,7 @@ import pluralize from 'pluralize'
 import { formatRecipeFromText } from '../../../controllers/recipe.js'
 import { useDispatch } from 'react-redux'
 import { nanoid } from '@reduxjs/toolkit'
-import { recipeAdded } from '../../../features/Recipes/recipesSlice.js'
+import { postRecipe } from '../../../features/Recipes/recipesSlice.js'
 
 export default function AddText ({ navigation }) {
   const dispatch = useDispatch()
@@ -24,14 +24,20 @@ export default function AddText ({ navigation }) {
   const [showIngredientForm, setShowIngredientForm] = useState(false)
   const [ingredient, setIngredient] = useState('')
 
+  const canAddIngredient = Boolean(ingredient)
+
   const [showStepForm, setShowStepForm] = useState(false)
   const [step, setStep] = useState({
     number: 1,
     instruction: ''
   })
 
+  const canAddStep = Boolean(step.instruction)
+
   const [showTagForm, setShowTagForm] = useState(false)
   const [tag, setTag] = useState('')
+
+  const canAddTag = Boolean(tag)
 
   const renderedIngredients = ingredients.map(ingredientObj => <Text key={ingredientObj}> - {ingredientObj}</Text>)
 
@@ -116,8 +122,8 @@ export default function AddText ({ navigation }) {
     try {
       const formattedRecipe = await formatRecipeFromText(recipe)
       formattedRecipe.id = nanoid()
-      dispatch(
-        recipeAdded(formattedRecipe)
+      await dispatch(
+        postRecipe(formattedRecipe)
       )
       clearRecipeForm()
       navigation.navigate('Recipe List')
@@ -137,6 +143,7 @@ export default function AddText ({ navigation }) {
         <Button
           title='Add'
           onPress={handleAddIngredient}
+          disabled={!canAddIngredient}
         />
       </View>
       )
@@ -153,6 +160,7 @@ export default function AddText ({ navigation }) {
         <Button
           title='ADD'
           onPress={handleAddStep}
+          disabled={!canAddStep}
         />
       </View>
       )
@@ -169,6 +177,7 @@ export default function AddText ({ navigation }) {
         <Button
           title='ADD'
           onPress={handleAddTag}
+          disabled={!canAddTag}
         />
       </View>
       )

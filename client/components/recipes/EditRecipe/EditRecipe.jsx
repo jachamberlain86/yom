@@ -4,7 +4,7 @@ import pluralize from 'pluralize'
 import { formatRecipeFromText } from '../../../controllers/recipe.js'
 import { useSelector, useDispatch } from 'react-redux'
 import { nanoid } from '@reduxjs/toolkit'
-import { recipeAdded, recipeUpdated } from '../../../features/Recipes/recipesSlice.js'
+import { postRecipe, putRecipe } from '../../../features/Recipes/recipesSlice.js'
 
 export default function EditRecipe ({ route, navigation }) {
   const dispatch = useDispatch()
@@ -26,6 +26,8 @@ export default function EditRecipe ({ route, navigation }) {
   const [showIngredientForm, setShowIngredientForm] = useState(false)
   const [ingredient, setIngredient] = useState('')
 
+  const canAddIngredient = Boolean(ingredient)
+
   const [showStepForm, setShowStepForm] = useState(false)
   const [step, setStep] = useState({
     number: steps.length
@@ -34,8 +36,12 @@ export default function EditRecipe ({ route, navigation }) {
     instruction: ''
   })
 
+  const canAddStep = Boolean(step.instruction)
+
   const [showTagForm, setShowTagForm] = useState(false)
   const [tag, setTag] = useState('')
+
+  const canAddTag = Boolean(tag)
 
   const renderedIngredients = ingredients.map(ingredientObj => {
     const units = ['ml', 'l', 'g', 'kg', 'cm', 'mm', 'fl oz', 'cup', 'pt', 'qt', 'gal', 'lb', 'oz', 'in']
@@ -128,11 +134,11 @@ export default function EditRecipe ({ route, navigation }) {
       if (!formattedRecipe.id) {
         formattedRecipe.id = nanoid()
         dispatch(
-          recipeAdded(formattedRecipe)
+          postRecipe(formattedRecipe)
         )
       } else {
         dispatch(
-          recipeUpdated(formattedRecipe)
+          putRecipe(formattedRecipe)
         )
       }
       navigation.navigate('Recipe List')
@@ -152,6 +158,7 @@ export default function EditRecipe ({ route, navigation }) {
         <Button
           title='Add'
           onPress={handleAddIngredient}
+          disabled={!canAddIngredient}
         />
       </View>
       )
@@ -168,6 +175,7 @@ export default function EditRecipe ({ route, navigation }) {
         <Button
           title='ADD'
           onPress={handleAddStep}
+          disabled={!canAddStep}
         />
       </View>
       )
@@ -184,6 +192,7 @@ export default function EditRecipe ({ route, navigation }) {
         <Button
           title='ADD'
           onPress={handleAddTag}
+          disabled={!canAddTag}
         />
       </View>
       )
@@ -201,7 +210,7 @@ export default function EditRecipe ({ route, navigation }) {
       )
     : (
       <Button
-        title='EDIT INGREDIENTS'
+        title='ADD INGREDIENT'
         onPress={() => setShowIngredientForm(true)}
       />
       )
@@ -218,7 +227,7 @@ export default function EditRecipe ({ route, navigation }) {
       )
     : (
       <Button
-        title='EDIT STEPS'
+        title='ADD STEP'
         onPress={() => setShowStepForm(true)}
       />
       )
@@ -235,7 +244,7 @@ export default function EditRecipe ({ route, navigation }) {
       )
     : (
       <Button
-        title='EDIT TAGS'
+        title='ADD TAG'
         onPress={() => setShowTagForm(true)}
       />
       )
