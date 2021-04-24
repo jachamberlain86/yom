@@ -4,7 +4,7 @@ import pluralize from 'pluralize'
 import { formatRecipeFromText } from '../../../controllers/recipe.js'
 import { useSelector, useDispatch } from 'react-redux'
 import { nanoid } from '@reduxjs/toolkit'
-import { recipeAdded } from '../../../features/Recipes/recipesSlice.js'
+import { recipeAdded, recipeUpdated } from '../../../features/Recipes/recipesSlice.js'
 
 export default function EditRecipe ({ route, navigation }) {
   const dispatch = useDispatch()
@@ -20,6 +20,8 @@ export default function EditRecipe ({ route, navigation }) {
   const [source, setSource] = useState(recipe.source)
   const [tags, setTags] = useState([...recipe.tags])
   const [rating, setRating] = useState(recipe.rating)
+
+  const canSave = Boolean(title) && Boolean(servingSize.number) && Boolean(ingredients.length) && Boolean(steps.length)
 
   const [showIngredientForm, setShowIngredientForm] = useState(false)
   const [ingredient, setIngredient] = useState('')
@@ -37,19 +39,21 @@ export default function EditRecipe ({ route, navigation }) {
 
   const renderedIngredients = ingredients.map(ingredientObj => {
     const units = ['ml', 'l', 'g', 'kg', 'cm', 'mm', 'fl oz', 'cup', 'pt', 'qt', 'gal', 'lb', 'oz', 'in']
+    let modifiers = ''
+    if (ingredientObj.modifiers.length) modifiers = ' (' + ingredientObj.modifiers.join(' ') + ')'
     if (!ingredientObj[currentUser.unitPref].unit) {
       const pluralIngredient = pluralize(ingredientObj.name, ingredientObj[currentUser.unitPref].amount)
       return (
-        <Text key={ingredientObj.id}> - {ingredientObj[currentUser.unitPref].amount} {ingredientObj.modifiers.join(' ')} {pluralIngredient}</Text>
+        <Text key={ingredientObj.id}> - {ingredientObj[currentUser.unitPref].amount} {pluralIngredient}{modifiers}</Text>
       )
     } else if (!units.includes(ingredientObj[currentUser.unitPref].unit)) {
       const pluralUnit = pluralize(ingredientObj[currentUser.unitPref].unit, ingredientObj[currentUser.unitPref].amount, true)
       return (
-        <Text key={ingredientObj.id}> - {pluralUnit} {ingredientObj.modifiers.join(' ')} {ingredientObj.name}</Text>
+        <Text key={ingredientObj.id}> - {pluralUnit} {ingredientObj.name}{modifiers}</Text>
       )
     } else {
       return (
-        <Text key={ingredientObj.id}> - {ingredientObj[currentUser.unitPref].amount}{ingredientObj[currentUser.unitPref].unit} {ingredientObj.modifiers.join(' ')} {ingredientObj.name}</Text>
+        <Text key={ingredientObj.id}> - {ingredientObj[currentUser.unitPref].amount}{ingredientObj[currentUser.unitPref].unit} {ingredientObj.name}{modifiers}</Text>
       )
     }
   }
@@ -125,6 +129,10 @@ export default function EditRecipe ({ route, navigation }) {
         formattedRecipe.id = nanoid()
         dispatch(
           recipeAdded(formattedRecipe)
+        )
+      } else {
+        dispatch(
+          recipeUpdated(formattedRecipe)
         )
       }
       navigation.navigate('Recipe List')
@@ -236,7 +244,7 @@ export default function EditRecipe ({ route, navigation }) {
     <ScrollView style={{ flex: 1 }}>
       <Text>Title</Text>
       <TextInput
-        placeholder={title}
+        value={title}
         onChangeText={(title) => setTitle(title)}
       />
       <Text>Serving size</Text>
@@ -248,13 +256,13 @@ export default function EditRecipe ({ route, navigation }) {
         <Picker.Item label='MAKES' value='MAKES' />
       </Picker>
       <TextInput
-        placeholder={servingSize.number}
+        value={servingSize.number}
         keyboardType='numeric'
         onChangeText={(number) => setServingSize({ ...servingSize, number })}
       />
       <Text>Time</Text>
       <TextInput
-        placeholder={timeMinutes}
+        value={timeMinutes}
         keyboardType='numeric'
         onChangeText={(timeMinutes) => setTimeMinutes(timeMinutes)}
       />
@@ -272,12 +280,12 @@ export default function EditRecipe ({ route, navigation }) {
       </View>
       <Text>Notes</Text>
       <TextInput
-        placeholder={notes}
+        value={notes}
         onChangeText={(notes) => setNotes(notes)}
       />
       <Text>Source</Text>
       <TextInput
-        placeholder={source}
+        value={source}
         onChangeText={(source) => setSource(source)}
       />
       <View>
@@ -296,7 +304,7 @@ export default function EditRecipe ({ route, navigation }) {
         <Button title='5' onPress={() => setRating(5)} />
         <Button title='Remove Rating' onPress={() => setRating(null)} />
       </View>
-      <Button title='SAVE' onPress={() => handleSaveRecipe()} />
+      <Button title='SAVE' onPress={() => handleSaveRecipe()} disabled={!canSave} />
       <Button title='CANCEL' onPress={() => navigation.navigate('Recipe List')} />
 
     </ScrollView>

@@ -16,15 +16,22 @@ export default function RecipeItem ({ route, navigation }) {
   }
 
   const renderedIngredients = recipe.ingredients.map(ingredientObj => {
-    if (!ingredientObj.UK.unit) {
-      const pluralIngredient = pluralize(ingredientObj.ingredient, ingredientObj[currentUser.unitPref].quantity)
+    const units = ['ml', 'l', 'g', 'kg', 'cm', 'mm', 'fl oz', 'cup', 'pt', 'qt', 'gal', 'lb', 'oz', 'in']
+    let modifiers = ''
+    if (ingredientObj.modifiers.length) modifiers = ' (' + ingredientObj.modifiers.join(' ') + ')'
+    if (!ingredientObj[currentUser.unitPref].unit) {
+      const pluralIngredient = pluralize(ingredientObj.name, ingredientObj[currentUser.unitPref].amount)
       return (
-        <Text key={ingredientObj.ingredient}> - {ingredientObj[currentUser.unitPref].quantity} {ingredientObj.modifier} {pluralIngredient}</Text>
+        <Text key={ingredientObj.id}> - {ingredientObj[currentUser.unitPref].amount} {pluralIngredient}{modifiers}</Text>
+      )
+    } else if (!units.includes(ingredientObj[currentUser.unitPref].unit)) {
+      const pluralUnit = pluralize(ingredientObj[currentUser.unitPref].unit, ingredientObj[currentUser.unitPref].amount, true)
+      return (
+        <Text key={ingredientObj.id}> - {pluralUnit} {ingredientObj.name}{modifiers}</Text>
       )
     } else {
-      const pluralUnit = pluralize(ingredientObj[currentUser.unitPref].unit, ingredientObj[currentUser.unitPref].quantity, true)
       return (
-        <Text key={ingredientObj.ingredient}> - {pluralUnit} {ingredientObj.modifier} {ingredientObj.ingredient}</Text>
+        <Text key={ingredientObj.id}> - {ingredientObj[currentUser.unitPref].amount}{ingredientObj[currentUser.unitPref].unit} {ingredientObj.name}{modifiers}</Text>
       )
     }
   }

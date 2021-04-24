@@ -1,6 +1,22 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+import firebase from 'firebase'
 
-export const updateRecipe = createAsyncThunk('recipes/recipeStateChange', async () => {
+export const postRecipe = createAsyncThunk('recipes/recipeAdded', async () => {
+  try {
+    const recipe = firebase.firestore().collection('users')
+      .doc(firebase.auth().currentUser.uid).collection('recipes').add()
+
+    const user = await firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).get()
+    if (user.exists) {
+      return user.data()
+    } else {
+      console.log('User doesn\'t exist')
+    }
+  } catch (err) {
+    console.log(err)
+  }
+})
+export const putRecipe = createAsyncThunk('recipes/recipeUpdated', async () => {
   try {
     const recipe = firebase.firestore().collection('users')
       .doc(firebase.auth().currentUser.uid).collection('recipes').add()
@@ -22,23 +38,24 @@ export const recipesSlice = createSlice({
     id: '1234567890',
     title: 'tasty cheese',
     servingSize: {
-      type: 'Serves',
+      type: 'SERVES',
       number: 4
     },
     timeMinutes: 120,
     ingredients: [
       {
-        ingredient: 'cheese',
-        modifier: 'grated',
-        UK: {
-          quantity: 100,
-          unit: 'gram'
+        id: 'cheese',
+        name: 'cheese',
+        modifiers: ['grated'],
+        uk: {
+          amount: 100,
+          unit: 'g'
         },
-        US: {
-          quantity: 3.5,
-          unit: 'ounce'
+        us: {
+          amount: 3.5,
+          unit: 'oz'
         },
-        aisle: 'diary'
+        aisle: 'DIARY'
       }
     ],
     steps: [
@@ -55,20 +72,34 @@ export const recipesSlice = createSlice({
     source: 'Cows',
     imageUrl: null,
     tags: [
-      'cheap',
-      'tasty'
+      'CHEAP',
+      'TASTY'
     ],
     rating: null,
-    inPlan: false,
-    dateAdded: ''
+    inMenu: false,
+    dateAdded: Date.now()
   }],
   reducers: {
-    recipeAdded (state, action) {
-      state.push(action.payload)
+    recipeAdded: {
+      reducer (state, action) {
+        state.push(action.payload)
+      },
+      prepare (recipe) {
+        return {
+          payload: {
+            recipe
+          }
+        }
+      }
+    },
+    recipeUpdated (state, action) {
+      const recipe = action.payload
+      let existingRecipe = state.find(oldRecipe => oldRecipe.id === recipe.id)
+      if (existingRecipe) existingRecipe = recipe
     }
   }
 })
 
-export const { recipeAdded } = recipesSlice.actions
+export const { recipeAdded, recipeUpdated } = recipesSlice.actions
 
 export default recipesSlice.reducer

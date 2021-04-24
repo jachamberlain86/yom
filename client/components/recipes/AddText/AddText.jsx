@@ -10,14 +10,16 @@ export default function AddText ({ navigation }) {
   const dispatch = useDispatch()
 
   const [title, setTitle] = useState('')
-  const [servingSize, setServingSize] = useState({ number: 0, type: 'SERVES' })
-  const [timeMinutes, setTimeMinutes] = useState(0)
+  const [servingSize, setServingSize] = useState({ number: null, type: 'SERVES' })
+  const [timeMinutes, setTimeMinutes] = useState(null)
   const [ingredients, setIngredients] = useState([])
   const [steps, setSteps] = useState([])
   const [notes, setNotes] = useState('')
   const [source, setSource] = useState('')
   const [tags, setTags] = useState([])
   const [rating, setRating] = useState(null)
+
+  const canSave = Boolean(title) && Boolean(servingSize.number) && Boolean(ingredients.length) && Boolean(steps.length)
 
   const [showIngredientForm, setShowIngredientForm] = useState(false)
   const [ingredient, setIngredient] = useState('')
@@ -288,7 +290,7 @@ export default function AddText ({ navigation }) {
         <Button title='5' onPress={() => setRating(5)} />
         <Button title='Remove Rating' onPress={() => setRating(null)} />
       </View>
-      <Button title='SAVE' onPress={() => handleSaveRecipe()} />
+      <Button title='SAVE' onPress={() => handleSaveRecipe()} disabled={!canSave} />
       <Button title='CANCEL' onPress={() => navigation.navigate('Recipe List')} />
 
     </ScrollView>
