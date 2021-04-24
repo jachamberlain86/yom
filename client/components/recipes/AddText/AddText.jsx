@@ -5,6 +5,7 @@ import { formatRecipeFromText } from '../../../controllers/recipe.js'
 import { useDispatch } from 'react-redux'
 import { nanoid } from '@reduxjs/toolkit'
 import { postRecipe } from '../../../features/Recipes/recipesSlice.js'
+import { styles } from '../../../styles/app.jsx'
 
 export default function AddText ({ navigation }) {
   const dispatch = useDispatch()
@@ -235,73 +236,76 @@ export default function AddText ({ navigation }) {
       )
 
   return (
-    <ScrollView style={{ flex: 1 }}>
-      <Text>Add Recipe</Text>
-      <Text>Title</Text>
-      <TextInput
-        placeholder='title'
-        onChangeText={(title) => setTitle(title)}
-      />
-      <Text>Serving size</Text>
-      <Picker
-        selectedValue={servingSize.type}
-        onValueChange={(itemValue, itemIndex) => setServingSize({ ...servingSize, type: itemValue })}
-      >
-        <Picker.Item label='SERVES' value='SERVES' />
-        <Picker.Item label='MAKES' value='MAKES' />
-      </Picker>
-      <TextInput
-        placeholder='serving number'
-        keyboardType='numeric'
-        onChangeText={(number) => setServingSize({ ...servingSize, number })}
-      />
-      <Text>Time</Text>
-      <TextInput
-        placeholder='time to prepare'
-        keyboardType='numeric'
-        onChangeText={(timeMinutes) => setTimeMinutes(timeMinutes)}
-      />
-      <View>
-        <Text>Ingredients</Text>
-        {renderedIngredients}
-        {ingredientForm}
-        {ingredientBtn}
-      </View>
-      <View>
-        <Text>Steps</Text>
-        {renderedSteps}
-        {stepForm}
-        {stepBtn}
-      </View>
-      <Text>Notes</Text>
-      <TextInput
-        placeholder='additional notes'
-        onChangeText={(notes) => setNotes(notes)}
-      />
-      <Text>Source</Text>
-      <TextInput
-        placeholder='source'
-        onChangeText={(source) => setSource(source)}
-      />
-      <View>
-        <Text>Tags</Text>
-        {renderedTags}
-        {tagForm}
-        {tagBtn}
-      </View>
-      <View>
-        <Text>YOM Rating</Text>
-        <Text>{rating ? pluralize('YOM', rating, true) : 'Rate this recipe!'}</Text>
-        <Button title='1' onPress={() => setRating(1)} />
-        <Button title='2' onPress={() => setRating(2)} />
-        <Button title='3' onPress={() => setRating(3)} />
-        <Button title='4' onPress={() => setRating(4)} />
-        <Button title='5' onPress={() => setRating(5)} />
-        <Button title='Remove Rating' onPress={() => setRating(null)} />
-      </View>
-      <Button title='SAVE' onPress={() => handleSaveRecipe()} disabled={!canSave} />
-      <Button title='CANCEL' onPress={() => navigation.navigate('Recipe List')} />
+    <View style={styles.container}>
 
-    </ScrollView>
+      <ScrollView>
+        <Text>Add Recipe</Text>
+        <Text>Title</Text>
+        <TextInput
+          placeholder='title'
+          onChangeText={(title) => setTitle(title)}
+        />
+        <Text>Serving size</Text>
+        <Picker
+          selectedValue={servingSize.type}
+          onValueChange={(itemValue, itemIndex) => setServingSize({ ...servingSize, type: itemValue })}
+        >
+          <Picker.Item label='SERVES' value='SERVES' />
+          <Picker.Item label='MAKES' value='MAKES' />
+        </Picker>
+        <TextInput
+          placeholder='serving number'
+          keyboardType='numeric'
+          onChangeText={(number) => setServingSize({ ...servingSize, number })}
+        />
+        <Text>Time</Text>
+        <TextInput
+          placeholder='time to prepare'
+          keyboardType='numeric'
+          onChangeText={(timeMinutes) => setTimeMinutes(timeMinutes)}
+        />
+        <View>
+          <Text>Ingredients</Text>
+          {renderedIngredients}
+          {ingredientForm}
+          {ingredientBtn}
+        </View>
+        <View>
+          <Text>Steps</Text>
+          {renderedSteps}
+          {stepForm}
+          {stepBtn}
+        </View>
+        <Text>Notes</Text>
+        <TextInput
+          placeholder='additional notes'
+          onChangeText={(notes) => setNotes(notes)}
+        />
+        <Text>Source</Text>
+        <TextInput
+          placeholder='source'
+          onChangeText={(source) => setSource(source)}
+        />
+        <View>
+          <Text>Tags</Text>
+          {renderedTags}
+          {tagForm}
+          {tagBtn}
+        </View>
+        <View>
+          <Text>YOM Rating</Text>
+          <Text>{rating ? pluralize('YOM', rating, true) : 'Rate this recipe!'}</Text>
+          <Button title='1' onPress={() => setRating(1)} />
+          <Button title='2' onPress={() => setRating(2)} />
+          <Button title='3' onPress={() => setRating(3)} />
+          <Button title='4' onPress={() => setRating(4)} />
+          <Button title='5' onPress={() => setRating(5)} />
+          <Button title='Remove Rating' onPress={() => setRating(null)} />
+        </View>
+        <Button title='SAVE' onPress={() => handleSaveRecipe()} disabled={!canSave} />
+        <Button title='CANCEL' onPress={() => navigation.navigate('Recipe List')} />
+
+      </ScrollView>
+    </View>
   )
 }

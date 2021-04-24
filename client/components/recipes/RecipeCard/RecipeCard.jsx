@@ -1,10 +1,13 @@
 import React, { useState } from 'react'
 import { Text, View, Pressable, Button } from 'react-native'
 import prettyMilliseconds from 'pretty-ms'
-import { useDispatch } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
+import { selectRecipeById, putRecipe, toggleInMenu } from '../../../features/Recipes/recipesSlice.js'
+import { styles } from '../../../styles/app.jsx'
 
 export default function RecipeCard ({ navigation, recipe }) {
   const [cardDetails, setCardDetails] = useState(null)
+  const [inMenu, setInMenu] = useState(recipe.inMenu)
   const dispatch = useDispatch()
 
   const timeMilliseconds = recipe.timeMinutes * 60000
@@ -32,21 +35,28 @@ export default function RecipeCard ({ navigation, recipe }) {
     )
   }
 
-  function handlePlanBtn () {
-
+  function handleMenuBtn () {
+    const updatedRecipe = { ...recipe }
+    updatedRecipe.inMenu = !inMenu
   }
 
-  const renderPlanBtn = recipe.inPlan
+  const renderMenuBtn = inMenu
     ? (
       <Button
         title='-'
-        onPress={handlePlanBtn}
+        onPress={() => {
+          setInMenu(false)
+          handleMenuBtn()
+        }}
       />
       )
     : (
       <Button
         title='+'
-        onPress={handlePlanBtn}
+        onPress={() => {
+          setInMenu(true)
+          handleMenuBtn()
+        }}
       />
       )
 
@@ -60,7 +70,10 @@ export default function RecipeCard ({ navigation, recipe }) {
           <Text>{recipe.title}</Text>
         </View>
       </Pressable>
-      {renderPlanBtn}
+      {renderMenuBtn}
+      <Button
+        title='DELETE'
+      />
       {cardDetails}
     </View>
   )

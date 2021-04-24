@@ -50,7 +50,7 @@ export default function App () {
 
   if (!status.loaded) {
     return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <View style={styles.container}>
         <Text>Loading</Text>
       </View>
     )
@@ -82,7 +82,7 @@ export default function App () {
   )
 }
 
-const styles = StyleSheet.create({
+export const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',

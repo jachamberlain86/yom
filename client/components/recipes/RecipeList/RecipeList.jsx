@@ -1,22 +1,37 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Text, View } from 'react-native'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
+import { fetchRecipes } from '../../../features/Recipes/recipesSlice.js'
+import { styles } from '../../../styles/app.jsx'
 
 import RecipeCard from '../RecipeCard/RecipeCard.jsx'
 
 export default function RecipeList ({ navigation }) {
-  const recipes = useSelector(state => state.recipes)
+  const dispatch = useDispatch()
+  const recipesStatus = useSelector(state => state.recipes.status)
+  const error = useSelector(state => state.recipes.error)
+  const recipes = useSelector(state => state.recipes.recipes)
 
-  const renderedRecipes = recipes.map(recipe => {
-    console.log(recipe.id)
-    return (
+  useEffect(() => {
+    if (recipesStatus === 'idle') {
+      dispatch(fetchRecipes())
+    }
+  }, [recipesStatus, dispatch])
 
+  let renderedRecipes
+
+  if (recipesStatus === 'loading') {
+    renderedRecipes = <Text>Loading...</Text>
+  } else if (recipesStatus === 'succeeded') {
+    renderedRecipes = recipes.map(recipe => (
       <RecipeCard key={recipe.id} recipe={recipe} navigation={navigation} />
-    )
-  })
+    ))
+  } else if (recipesStatus === 'failed') {
+    renderedRecipes = <Text>{error}</Text>
+  }
 
   return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+    <View style={styles.container}>
       <Text>Recipe List</Text>
       {renderedRecipes}
     </View>

@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import { Text, View } from 'react-native'
 import { useSelector, useDispatch } from 'react-redux'
 import { fetchUser } from '../../../features/User/userSlice.js'
+import { styles } from '../../../styles/app.jsx'
 
 export default function Home () {
   const dispatch = useDispatch()
@@ -26,7 +27,7 @@ export default function Home () {
   }
 
   return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+    <View style={styles.container}>
       <Text>{content}</Text>
     </View>
   )

@@ -6,7 +6,6 @@ import { titleCase } from 'title-case'
 import { sentenceCase } from 'sentence-case'
 
 export function formatRecipeFromLink (recipe) {
-  recipe = mockRecipe
   const formattedRecipe = {
     title: recipe.title
       ? recipe.title
@@ -75,7 +74,6 @@ export function formatRecipeFromLink (recipe) {
 export async function formatRecipeFromText (recipe) {
   try {
     recipe.title = recipe.title.toLowerCase()
-    // const ingredients = mockIngredient
     let ingredientString = ''
     const formattedIngredients = []
     for (const ingredient of recipe.ingredients) {
@@ -182,37 +180,37 @@ function calcUkToUsConversion (ingredient) {
       convertedUnits.uk.unit = ingredient.unit
       convertedUnits.uk.amount = ingredient.amount
       convertedUnits.us.unit = 'fl oz'
-      convertedUnits.us.amount = convert(ingredient.amount).from('ml').to('fl-oz')
+      convertedUnits.us.amount = parseFloat(convert(ingredient.amount).from('ml').to('fl-oz').toFixed(2))
       break
     case 'l':
       convertedUnits.uk.unit = ingredient.unit
       convertedUnits.uk.amount = ingredient.amount
       convertedUnits.us.unit = 'pt'
-      convertedUnits.us.amount = convert(ingredient.amount).from('l').to('pnt')
+      convertedUnits.us.amount = parseFloat(convert(ingredient.amount).from('l').to('pnt').toFixed(2))
       break
     case 'g':
       convertedUnits.uk.unit = ingredient.unit
       convertedUnits.uk.amount = ingredient.amount
       convertedUnits.us.unit = 'oz'
-      convertedUnits.us.amount = convert(ingredient.amount).from('g').to('oz')
+      convertedUnits.us.amount = parseFloat(convert(ingredient.amount).from('g').to('oz').toFixed(2))
       break
     case 'kg':
       convertedUnits.uk.unit = ingredient.unit
       convertedUnits.uk.amount = ingredient.amount
       convertedUnits.us.unit = 'lb'
-      convertedUnits.us.amount = convert(ingredient.amount).from('kg').to('lb')
+      convertedUnits.us.amount = parseFloat(convert(ingredient.amount).from('kg').to('lb').toFixed(2))
       break
     case 'cm':
       convertedUnits.uk.unit = ingredient.unit
       convertedUnits.uk.amount = ingredient.amount
       convertedUnits.us.unit = 'in'
-      convertedUnits.us.amount = convert(ingredient.amount).from('cm').to('in')
+      convertedUnits.us.amount = parseFloat(convert(ingredient.amount).from('cm').to('in').toFixed(2))
       break
     case 'mm':
       convertedUnits.uk.unit = ingredient.unit
       convertedUnits.uk.amount = ingredient.amount
       convertedUnits.us.unit = 'in'
-      convertedUnits.us.amount = convert(ingredient.amount).from('mm').to('in')
+      convertedUnits.us.amount = parseFloat(convert(ingredient.amount).from('mm').to('in').toFixed(2))
       break
   }
 
@@ -236,43 +234,43 @@ function calcUsToUkConversion (ingredient) {
       convertedUnits.us.unit = ingredient.unit
       convertedUnits.us.amount = ingredient.amount
       convertedUnits.uk.unit = 'ml'
-      convertedUnits.uk.amount = convert(ingredient.amount).from('fl-oz').to('ml')
+      convertedUnits.uk.amount = Math.round(convert(ingredient.amount).from('fl-oz').to('ml'))
       break
     case 'pt':
       convertedUnits.us.unit = ingredient.unit
       convertedUnits.us.amount = ingredient.amount
       convertedUnits.uk.unit = 'l'
-      convertedUnits.uk.amount = convert(ingredient.amount).from('pnt').to('l')
+      convertedUnits.uk.amount = parseFloat(convert(ingredient.amount).from('pnt').to('l').toFixed(2))
       break
     case 'qt':
       convertedUnits.us.unit = ingredient.unit
       convertedUnits.us.amount = ingredient.amount
       convertedUnits.uk.unit = 'l'
-      convertedUnits.uk.amount = convert(ingredient.amount).from('qt').to('l')
+      convertedUnits.uk.amount = parseFloat(convert(ingredient.amount).from('qt').to('l').toFixed(2))
       break
     case 'gal':
       convertedUnits.us.unit = ingredient.unit
       convertedUnits.us.amount = ingredient.amount
       convertedUnits.uk.unit = 'l'
-      convertedUnits.uk.amount = convert(ingredient.amount).from('gal').to('l')
+      convertedUnits.uk.amount = parseFloat(convert(ingredient.amount).from('gal').to('l').toFixed(2))
       break
     case 'lb':
       convertedUnits.us.unit = ingredient.unit
       convertedUnits.us.amount = ingredient.amount
       convertedUnits.uk.unit = 'kg'
-      convertedUnits.uk.amount = convert(ingredient.amount).from('lb').to('kg')
+      convertedUnits.uk.amount = parseFloat(convert(ingredient.amount).from('lb').to('kg').toFixed(2))
       break
     case 'oz':
       convertedUnits.us.unit = ingredient.unit
       convertedUnits.us.amount = ingredient.amount
       convertedUnits.uk.unit = 'g'
-      convertedUnits.uk.amount = convert(ingredient.amount).from('oz').to('g')
+      convertedUnits.uk.amount = Math.round(convert(ingredient.amount).from('oz').to('g'))
       break
     case 'in':
       convertedUnits.us.unit = ingredient.unit
       convertedUnits.us.amount = ingredient.amount
       convertedUnits.uk.unit = 'mm'
-      convertedUnits.uk.amount = convert(ingredient.amount).from('in').to('mm')
+      convertedUnits.uk.amount = Math.round(convert(ingredient.amount).from('in').to('mm'))
       break
     case 'stick':
       convertedUnits.us.unit = ingredient.unit
@@ -285,7 +283,7 @@ function calcUsToUkConversion (ingredient) {
         convertedUnits.us.unit = ingredient.unit
         convertedUnits.us.amount = ingredient.amount
         convertedUnits.uk.unit = 'ml'
-        convertedUnits.uk.amount = convert(ingredient.amount).from('cup').to('ml')
+        convertedUnits.uk.amount = Math.round(convert(ingredient.amount).from('cup').to('ml'))
       } else {
         convertedUnits.us.unit = ingredient.unit
         convertedUnits.us.amount = ingredient.amount

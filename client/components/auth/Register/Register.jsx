@@ -16,14 +16,9 @@ export default function Register () {
           email,
           unitPref: 'uk',
           themePref: 'auto',
-          recipes: [],
           plans: {
-            current: [],
-            next: []
           },
           lists: {
-            current: [],
-            previous: []
           }
         })
       console.log(result)
