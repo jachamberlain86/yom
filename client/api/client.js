@@ -3,8 +3,8 @@ export async function getRecipeFromLink (url) {
     const response = await window.fetch(`https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/extract?url=${url}`, {
       method: 'GET',
       headers: {
-        'x-rapidapi-key': '26724f2a84msh79c215d5b3d211ap101759jsna1c12057fee3',
-        'x-rapidapi-host': 'spoonacular-recipe-food-nutrition-v1.p.rapidapi.com'
+        'x-rapidapi-key': process.env.X_RAPIDAPI_KEY,
+        'x-rapidapi-host': process.env.X_RAPIDAPI_HOST
       }
     })
     const parsedResponse = await response.json()
@@ -22,8 +22,8 @@ export async function parseIngredients (ingredients, servingSize) {
       method: 'POST',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
-        'x-rapidapi-key': '26724f2a84msh79c215d5b3d211ap101759jsna1c12057fee3',
-        'x-rapidapi-host': 'spoonacular-recipe-food-nutrition-v1.p.rapidapi.com'
+        'x-rapidapi-key': process.env.X_RAPIDAPI_KEY,
+        'x-rapidapi-host': process.env.X_RAPIDAPI_HOST
       },
       body: formBody
     })
