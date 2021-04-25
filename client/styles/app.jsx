@@ -1,15 +1,17 @@
-import { StyleSheet } from 'react-native'
+import { StyleSheet, PixelRatio } from 'react-native'
 
-const yomBlack = '#000'
-const yomWhite = '#EEE'
-const yomGreyDark = '#545353'
-const yomGreyLight = '#C4C4C4'
-const yomGreyLightest = '#E5E5E5'
+export const colors = {
+  yomBlack: '#000',
+  yomWhite: '#EEE',
+  yomGreyDark: '#545353',
+  yomGreyLight: '#C4C4C4',
+  yomGreyLightest: '#E5E5E5'
+}
 
 const yomFont = 'JosefinSans_600SemiBold'
 
 const ratio = 1.5
-const regular = 16
+const regular = 14 * PixelRatio.getFontScale()
 const small = regular / ratio
 const smaller = small / ratio
 const smallest = smaller / ratio
@@ -24,27 +26,69 @@ const huger = huge * ratio
 const hugest = huger * ratio
 const giant = hugest * ratio
 
+export const tabBarStyle = {
+  backgroundColor: colors.yomBlack
+}
+
 export const styles = StyleSheet.create({
-  container: {
+  safeArea: {
     flex: 1,
-    backgroundColor: yomWhite,
-    alignItems: 'center',
+    backgroundColor: colors.yomBlack
+  },
+  bottomTabNav: {
+    backgroundColor: colors.yomBlack
+  },
+  screenContainer: {
+    flex: 1,
+    backgroundColor: colors.yomWhite,
     justifyContent: 'center'
   },
   authContainer: {
     flex: 1,
-    backgroundColor: yomBlack,
-    color: yomWhite,
+    backgroundColor: colors.yomBlack,
+    color: colors.yomWhite,
     justifyContent: 'center',
-    padding: bigger
+    paddingLeft: huge,
+    paddingRight: huge
+  },
+  mainContainer: {
+    flewGrow: 1,
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    margin: bigger,
+    padding: big,
+    borderStyle: 'solid',
+    borderWidth: 4,
+    borderColor: colors.yomBlack
+  },
+  headerContainer: {
+    margin: bigger,
+    marginBottom: 0,
+    padding: regular,
+    flex: 1,
+    backgroundColor: colors.yomBlack
+  },
+  halfScreen: {
+    flex: 1,
+    height: '50%'
+  },
+  thirdScreen: {
+    flex: 1,
+    height: '33%'
+  },
+  twoThirdsScreen: {
+    flex: 1,
+    height: '66%',
+    justifyContent: 'center'
   },
   logoLarge: {
     alignSelf: 'center',
+    marginTop: regular,
+    marginBottom: regular,
     fontSize: huge,
-    color: yomWhite,
-    fontFamily: yomFont,
-    paddingBottom: huge,
-    paddingTop: hugest
+    color: colors.yomWhite,
+    fontFamily: yomFont
   },
   button: {
     height: biggest,
@@ -52,33 +96,47 @@ export const styles = StyleSheet.create({
     marginBottom: regular,
     paddingBottom: regular,
     paddingTop: big,
-    backgroundColor: yomWhite,
+    backgroundColor: colors.yomWhite,
     justifyContent: 'center',
     alignItems: 'center'
   },
-  textInput: {
-    backgroundColor: yomWhite,
+  formFields: {
     marginTop: regular,
     marginBottom: regular
   },
+  textInput: {
+    color: colors.yomGreyLightest,
+    marginTop: small,
+    marginBottom: regular,
+    padding: small
+  },
   buttonWhite: {
-    backgroundColor: yomWhite
+    backgroundColor: colors.yomWhite
   },
   buttonGreyDark: {
-    backgroundColor: yomGreyDark
+    backgroundColor: colors.yomGreyDark
   },
   buttonText: {
     fontSize: big,
     fontFamily: yomFont
   },
   fieldHeader: {
-    fontSize: regular,
+    fontSize: big,
     fontFamily: yomFont
   },
   textWhite: {
-    color: yomWhite
+    color: colors.yomWhite
   },
   textBlack: {
-    color: yomBlack
+    color: colors.yomBlack
+  },
+  bodyCopy: {
+    fontFamily: yomFont,
+    fontSize: regular
+  },
+  headingWhite: {
+    fontFamily: yomFont,
+    fontSize: big,
+    color: colors.yomWhite
   }
 })

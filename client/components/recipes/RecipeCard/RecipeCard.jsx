@@ -11,7 +11,6 @@ export default function RecipeCard ({ navigation, recipe }) {
   const [image, setImage] = useState(recipe.imageUrl)
   const dispatch = useDispatch()
 
-  console.log(image)
   const timeMilliseconds = recipe.timeMinutes * 60000
   const prettyTime = prettyMilliseconds(timeMilliseconds, { secondsDecimalDigits: 0, verbose: true })
   let renderRating = null

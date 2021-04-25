@@ -5,12 +5,15 @@ import store from './app/store.js'
 import EditRecipeScreen from './components/recipes/EditRecipe/EditRecipe.jsx'
 import { styles } from './styles/app.jsx'
 import { useFonts, JosefinSans_600SemiBold } from '@expo-google-fonts/josefin-sans'
+import AppLoading from 'expo-app-loading'
+import { SafeAreaView, StyleSheet, Text, View } from 'react-native'
 
 import firebase from 'firebase'
 
 import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
-import { StyleSheet, Text, View } from 'react-native'
+
+import pluralize from 'pluralize'
 
 import LandingScreen from './components/auth/Landing/Landing.jsx'
 import LoginScreen from './components/auth/Login/Login.jsx'
@@ -36,6 +39,9 @@ if (firebase.apps.length === 0) {
   firebase.initializeApp(firebaseConfig)
 }
 
+pluralize.addUncountableRule('large')
+pluralize.addUncountableRule('small')
+
 const Stack = createStackNavigator()
 
 export default function App () {
@@ -55,37 +61,46 @@ export default function App () {
     })
   }, [])
 
-  if (!status.loaded && !fontsLoaded) {
+  if (!status.loaded || !fontsLoaded) {
     return (
-      <View style={styles.authContainer}>
-        <Text>Loading</Text>
-      </View>
+      <SafeAreaView style={styles.safeArea}>
+
+        <AppLoading />
+      </SafeAreaView>
     )
   }
   if (!status.loggedIn) {
     return (
-      <NavigationContainer>
-        <Stack.Navigator initialRouteName='Landing'>
-          <Stack.Screen name='Landing' component={LandingScreen} options={{ headerShown: false }} />
-          <Stack.Screen name='Login' component={LoginScreen} />
-          <Stack.Screen name='Register' component={RegisterScreen} />
-        </Stack.Navigator>
-      </NavigationContainer>
+      <SafeAreaView style={styles.safeArea}>
+
+        <NavigationContainer>
+          <Stack.Navigator
+            initialRouteName='Landing'
+          >
+            <Stack.Screen name='Landing' component={LandingScreen} options={{ headerShown: false }} />
+            <Stack.Screen name='Login' component={LoginScreen} />
+            <Stack.Screen name='Register' component={RegisterScreen} />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </SafeAreaView>
     )
   }
   return (
     <Provider store={store}>
-      <NavigationContainer>
-        <Stack.Navigator initialRouteName='Dashboard'>
-          <Stack.Screen name='Dashboard' component={DashboardScreen} />
-          <Stack.Screen name='Recipe Book' component={RecipeBookScreen} />
-          <Stack.Screen name='Meal Plan' component={MealPlanScreen} />
-          <Stack.Screen name='Add Recipe' component={AddRecipeScreen} />
-          <Stack.Screen name='Recipe Item' component={RecipeItemScreen} />
-          <Stack.Screen name='Edit Recipe' component={EditRecipeScreen} />
-          <Stack.Screen name='Upload Image' component={UploadImageScreen} />
-        </Stack.Navigator>
-      </NavigationContainer>
+      <SafeAreaView style={styles.safeArea}>
+
+        <NavigationContainer>
+          <Stack.Navigator initialRouteName='Dashboard'>
+            <Stack.Screen name='Dashboard' component={DashboardScreen} />
+            <Stack.Screen name='Recipe Book' component={RecipeBookScreen} />
+            <Stack.Screen name='Meal Plan' component={MealPlanScreen} />
+            <Stack.Screen name='Add Recipe' component={AddRecipeScreen} />
+            <Stack.Screen name='Recipe Item' component={RecipeItemScreen} />
+            <Stack.Screen name='Edit Recipe' component={EditRecipeScreen} />
+            <Stack.Screen name='Upload Image' component={UploadImageScreen} />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </SafeAreaView>
     </Provider>
   )
 }

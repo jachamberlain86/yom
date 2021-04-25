@@ -27,8 +27,8 @@ export default function Home () {
   }
 
   return (
-    <View style={styles.container}>
-      <Text>{content}</Text>
+    <View>
+      <Text style={styles.bodyCopy}>{content}</Text>
     </View>
   )
 }

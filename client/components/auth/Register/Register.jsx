@@ -1,9 +1,15 @@
 import React, { useState, setState } from 'react'
-import { View, Button, TextInput } from 'react-native'
+import { View, Text, TextInput, Pressable } from 'react-native'
 import firebase from 'firebase'
+import { styles } from '../../../styles/app.jsx'
 
 export default function Register () {
   const [user, setUser] = useState({ email: '', password: '', name: '' })
+  const [confirm, setConfirm] = useState('')
+
+  const match = user.password === confirm
+
+  const canRegister = Boolean(user.email) && Boolean(user.password) && Boolean(user.name) && Boolean(confirm) && Boolean(match)
 
   async function onSignUp () {
     const { email, password, name } = user
@@ -28,24 +34,59 @@ export default function Register () {
   }
 
   return (
-    <View>
-      <TextInput
-        placeholder='name'
-        onChangeText={(name) => setUser({ ...user, name })}
-      />
-      <TextInput
-        placeholder='email'
-        onChangeText={(email) => setUser({ ...user, email })}
-      />
-      <TextInput
-        placeholder='password'
-        secureTextEntry
-        onChangeText={(password) => setUser({ ...user, password })}
-      />
-      <Button
+    <View style={styles.authContainer}>
+      <View style={styles.formFields}>
+        <Text
+          style={[styles.fieldHeader, styles.textWhite]}
+        >
+          first name
+        </Text>
+        <TextInput
+          style={styles.textInput}
+          placeholder='name'
+          onChangeText={(name) => setUser({ ...user, name })}
+        />
+        <Text
+          style={[styles.fieldHeader, styles.textWhite]}
+        >
+          username
+        </Text>
+        <TextInput
+          style={styles.textInput}
+          placeholder='email'
+          keyboardType='email-address'
+          onChangeText={(email) => setUser({ ...user, email })}
+        />
+        <Text
+          style={[styles.fieldHeader, styles.textWhite]}
+        >
+          password
+        </Text>
+        <TextInput
+          style={styles.textInput}
+          placeholder='password'
+          secureTextEntry
+          onChangeText={(password) => setUser({ ...user, password })}
+        />
+        <Text
+          style={[styles.fieldHeader, styles.textWhite]}
+        >
+          confirm password
+        </Text>
+        <TextInput
+          style={styles.textInput}
+          placeholder='confirm password'
+          secureTextEntry
+          onChangeText={(text) => setConfirm(text)}
+        />
+      </View>
+      <Pressable
+        disabled={!canRegister}
+        style={[styles.button, styles.buttonGreyDark]}
         onPress={() => onSignUp()}
-        title='Sign up'
-      />
+      >
+        <Text style={[styles.buttonText, styles.textWhite]}>SIGN UP</Text>
+      </Pressable>
     </View>
   )
 }

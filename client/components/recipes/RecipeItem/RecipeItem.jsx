@@ -15,26 +15,38 @@ export default function RecipeItem ({ route, navigation }) {
   const prettyTime = prettyMilliseconds(timeMilliseconds, { secondsDecimalDigits: 0, verbose: true })
   let renderRating = null
   if (recipe.rating) {
-    renderRating = <Text>{recipe.rating}</Text>
+    renderRating = <Text>{recipe.rating ? pluralize('YOM', recipe.rating, true) : 'Rate this recipe!'}</Text>
   }
 
   const renderedIngredients = recipe.ingredients.map(ingredientObj => {
     const units = ['ml', 'l', 'g', 'kg', 'cm', 'mm', 'fl oz', 'pt', 'qt', 'gal', 'lb', 'oz', 'in']
     let modifiers = ''
     if (ingredientObj.modifiers.length) modifiers = ' (' + ingredientObj.modifiers.join(', ') + ')'
-    if (!ingredientObj[currentUser.unitPref].unit) {
+    if (!ingredientObj[currentUser.unitPref].unit && !ingredientObj[currentUser.unitPref].amount) {
+      const regEx = /^ERROR/
+      return regEx.test(ingredientObj.name)
+        ? (
+          <View key={ingredientObj.name}>
+            <Text style={{ color: 'red' }}>Oops! Something went wrong. Edit this ingredient and try again.</Text>
+            <Text style={{ color: 'red' }}>- {ingredientObj.name}</Text>
+          </View>
+          )
+        : (
+          <Text key={ingredientObj.name}>- {ingredientObj.name}</Text>
+          )
+    } else if (!ingredientObj[currentUser.unitPref].unit) {
       const pluralIngredient = pluralize(ingredientObj.name, ingredientObj[currentUser.unitPref].amount)
       return (
-        <Text key={ingredientObj.id}> - {ingredientObj[currentUser.unitPref].amount} {pluralIngredient}{modifiers}</Text>
+        <Text key={ingredientObj.id}>- {ingredientObj[currentUser.unitPref].amount} {pluralIngredient}{modifiers}</Text>
       )
     } else if (!units.includes(ingredientObj[currentUser.unitPref].unit)) {
       const pluralUnit = pluralize(ingredientObj[currentUser.unitPref].unit, ingredientObj[currentUser.unitPref].amount, true)
       return (
-        <Text key={ingredientObj.id}> - {pluralUnit} {ingredientObj.name}{modifiers}</Text>
+        <Text key={ingredientObj.id}>- {pluralUnit} {ingredientObj.name}{modifiers}</Text>
       )
     } else {
       return (
-        <Text key={ingredientObj.id}> - {ingredientObj[currentUser.unitPref].amount}{ingredientObj[currentUser.unitPref].unit} {ingredientObj.name}{modifiers}</Text>
+        <Text key={ingredientObj.id}>- {ingredientObj[currentUser.unitPref].amount}{ingredientObj[currentUser.unitPref].unit} {ingredientObj.name}{modifiers}</Text>
       )
     }
   }

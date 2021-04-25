@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { Text, View } from 'react-native'
+import { Text, View, ScrollView, FlatList } from 'react-native'
 import { useSelector, useDispatch } from 'react-redux'
 import { fetchRecipes } from '../../../features/Recipes/recipesSlice.js'
 import { styles } from '../../../styles/app.jsx'
@@ -31,9 +31,15 @@ export default function RecipeList ({ navigation }) {
   }
 
   return (
-    <View style={styles.container}>
-      <Text>Recipe List</Text>
-      {renderedRecipes}
+    <View>
+      <View style={styles.headerContainer}>
+        <Text style={styles.headingWhite}>RECIPE BOOK</Text>
+      </View>
+      <View style={styles.mainContainer}>
+        <ScrollView>
+          {renderedRecipes}
+        </ScrollView>
+      </View>
     </View>
   )
 }

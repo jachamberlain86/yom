@@ -6,6 +6,7 @@ import { titleCase } from 'title-case'
 import { sentenceCase } from 'sentence-case'
 
 export function formatRecipeFromLink (recipe) {
+  console.log(recipe)
   const formattedRecipe = {
     title: recipe.title
       ? recipe.title
@@ -114,9 +115,20 @@ export function formatRecipeFromImage () {
 
 function formatIngredientForRecipe (ingredient) {
   const formattedIngredient = {
-    name: ingredient.name.toLowerCase(),
     uk: {},
     us: {}
+  }
+
+  if (ingredient.name) {
+    formattedIngredient.name = ingredient.name.toLowerCase()
+  } else {
+    formattedIngredient.name = 'ERROR: ' + ingredient.original
+    formattedIngredient.id = formattedIngredient.name
+    formattedIngredient.uk = { unit: null, amount: null }
+    formattedIngredient.us = { unit: null, amount: null }
+    formattedIngredient.modifiers = []
+    formattedIngredient.aisle = ''
+    return formattedIngredient
   }
 
   if (ingredient.id) {
