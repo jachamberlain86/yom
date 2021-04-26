@@ -161,7 +161,7 @@ export default function EditRecipe ({ route, navigation }) {
           putRecipe(formattedRecipe)
         )
       }
-      navigation.navigate('Recipe List')
+      navigation.navigate('Recipe Book')
     } catch (err) {
       console.log(err)
     }

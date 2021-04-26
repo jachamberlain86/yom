@@ -1,21 +1,41 @@
 import React, { useState } from 'react'
-import { Text, View, Pressable, Button, Image } from 'react-native'
+import { Text, View, Pressable, Image } from 'react-native'
 import prettyMilliseconds from 'pretty-ms'
 import { useSelector, useDispatch } from 'react-redux'
 import { selectRecipeById, putRecipe, toggleInMenu } from '../../../features/Recipes/recipesSlice.js'
-import { styles } from '../../../styles/app.jsx'
+import { styles, colors } from '../../../styles/app.jsx'
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 
-export default function RecipeCard ({ navigation, recipe }) {
+export default function RecipeCard ({ navigation, recipeId }) {
+  const recipe = useSelector(state => selectRecipeById(state, recipeId))
+  const dispatch = useDispatch()
+
   const [cardDetails, setCardDetails] = useState(null)
   const [inMenu, setInMenu] = useState(recipe.inMenu)
   const [image, setImage] = useState(recipe.imageUrl)
-  const dispatch = useDispatch()
 
   const timeMilliseconds = recipe.timeMinutes * 60000
   const prettyTime = prettyMilliseconds(timeMilliseconds, { secondsDecimalDigits: 0, verbose: true })
+
   let renderRating = null
+  const ratingElementStar = <MaterialCommunityIcons name='star' color={colors.yomWhite} size={20} />
+  const ratingElementStarOutline = <MaterialCommunityIcons name='star-outline' color={colors.yomWhite} size={20} />
+
   if (recipe.rating) {
-    renderRating = <Text>{recipe.rating}</Text>
+    const ratingElementsArr = Array(5).fill(ratingElementStarOutline)
+    for (let i = 0; i < recipe.rating; i++) {
+      ratingElementsArr[i] = ratingElementStar
+    }
+
+    renderRating = (
+      <View style={styles.ratingContainer}>
+        {ratingElementsArr[0]}
+        {ratingElementsArr[1]}
+        {ratingElementsArr[2]}
+        {ratingElementsArr[3]}
+        {ratingElementsArr[4]}
+      </View>
+    )
   }
 
   function hideDetails () {
@@ -24,14 +44,18 @@ export default function RecipeCard ({ navigation, recipe }) {
 
   function showDetails () {
     setCardDetails(
-      <View>
-        <Text>{recipe.servingSize.type} {recipe.servingSize.number}</Text>
-        <Text>{prettyTime}</Text>
-        <Text>{renderRating}</Text>
-        <Button
-          title='Close'
+      <View style={styles.recipeCardDetailsContainer}>
+        <View style={styles.recipeCardDetailsTextContainer}>
+
+          <Text style={[styles.bodyCopy, styles.textWhite]}>{recipe.servingSize.type} {recipe.servingSize.number}</Text>
+          <Text style={[styles.bodyCopy, styles.textWhite]}>{prettyTime}</Text>
+          {renderRating}
+        </View>
+        <Pressable
           onPress={hideDetails}
-        />
+        >
+          <MaterialCommunityIcons name='close-thick' color={colors.yomWhite} size={20} />
+        </Pressable>
       </View>
     )
   }
@@ -43,40 +67,59 @@ export default function RecipeCard ({ navigation, recipe }) {
 
   const renderMenuBtn = inMenu
     ? (
-      <Button
-        title='-'
+      <Pressable
         onPress={() => {
           setInMenu(false)
           handleMenuBtn()
         }}
-      />
+      >
+        <Text>-</Text>
+      </Pressable>
       )
     : (
-      <Button
+      <Pressable
         title='+'
         onPress={() => {
           setInMenu(true)
           handleMenuBtn()
         }}
-      />
+      >
+        <Text>+</Text>
+      </Pressable>
+      )
+
+  const renderedImage = image
+    ? (
+      <Image source={{ uri: image }} style={styles.recipeCardImage} />
+      )
+    : (
+      <View style={styles.recipeCardIcon}>
+        <MaterialCommunityIcons name='pot-mix' color={colors.yomBlack} size={24} />
+      </View>
       )
 
   return (
     <View>
-      {image && (<Image source={{ uri: image }} style={{ width: 70, height: 70 }} />)}
+
       <Pressable
-        onPress={() => navigation.navigate('Recipe Item', { recipe })}
+        onPress={() => navigation.navigate('Recipe Item', { recipeId: recipe.id })}
         onLongPress={showDetails}
       >
-        <View>
-          <Text>{recipe.title}</Text>
+        <View style={styles.recipeCard}>
+          {renderedImage}
+          <View style={styles.recipeCardTextContainer}>
+            <Text style={[styles.bodyCopy, styles.textBlack]} numberOfLines={3}>{recipe.title}</Text>
+          </View>
         </View>
+        {cardDetails}
       </Pressable>
-      {renderMenuBtn}
-      <Button
+      {/* <Pressable
         title='DELETE'
-      />
-      {cardDetails}
+      >
+        <View style={styles.recipeCardIcon}>
+          <MaterialCommunityIcons name='trash-can' color={colors.yomWhite} size={24} />
+        </View>
+      </Pressable> */}
     </View>
   )
 }

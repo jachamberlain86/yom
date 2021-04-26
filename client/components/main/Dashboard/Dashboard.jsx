@@ -19,6 +19,7 @@ export default function Dashboard () {
   return (
     <View style={styles.screenContainer}>
       <View style={styles.mainContainer}>
+
         <HomeScreen />
       </View>
       <View>
@@ -53,7 +54,7 @@ export default function Dashboard () {
             })}
             options={{
               tabBarIcon: ({ color, size }) => (
-                <MaterialCommunityIcons name='hamburger' color={color} size={26} />
+                <MaterialCommunityIcons name='rice' color={color} size={26} />
               )
             }}
           />

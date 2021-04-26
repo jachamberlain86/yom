@@ -41,7 +41,8 @@ export const styles = StyleSheet.create({
   screenContainer: {
     flex: 1,
     backgroundColor: colors.yomWhite,
-    justifyContent: 'center'
+    justifyContent: 'center',
+    width: '100%'
   },
   authContainer: {
     flex: 1,
@@ -52,7 +53,9 @@ export const styles = StyleSheet.create({
     paddingRight: huge
   },
   mainContainer: {
-    flewGrow: 1,
+    flex: 1
+  },
+  contentContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
@@ -65,22 +68,8 @@ export const styles = StyleSheet.create({
   headerContainer: {
     margin: bigger,
     marginBottom: 0,
-    padding: regular,
-    flex: 1,
+    padding: big,
     backgroundColor: colors.yomBlack
-  },
-  halfScreen: {
-    flex: 1,
-    height: '50%'
-  },
-  thirdScreen: {
-    flex: 1,
-    height: '33%'
-  },
-  twoThirdsScreen: {
-    flex: 1,
-    height: '66%',
-    justifyContent: 'center'
   },
   logoLarge: {
     alignSelf: 'center',
@@ -94,11 +83,53 @@ export const styles = StyleSheet.create({
     height: biggest,
     marginTop: regular,
     marginBottom: regular,
-    paddingBottom: regular,
-    paddingTop: big,
+    padding: regular,
     backgroundColor: colors.yomWhite,
     justifyContent: 'center',
     alignItems: 'center'
+  },
+  recipeCard: {
+    flex: 1,
+    flexDirection: 'row',
+    backgroundColor: colors.yomGreyLightest,
+    marginTop: small,
+    marginBottom: small
+  },
+  recipeCardImage: {
+    width: 70,
+    height: 70
+  },
+  recipeCardIcon: {
+    backgroundColor: colors.yomGreyLight,
+    width: 70,
+    height: 70,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  recipeCardTextContainer: {
+    flex: 1,
+    flexWrap: 'wrap',
+    padding: regular,
+    justifyContent: 'flex-end',
+    textOverflow: 'ellipsis'
+  },
+  recipeCardDetailsContainer: {
+    flex: 1,
+    padding: regular,
+    flexDirection: 'row',
+    backgroundColor: colors.yomGreyDark
+  },
+  recipeCardDetailsTextContainer: {
+    flex: 1
+  },
+  recipeTextContainer: {
+    flex: 1,
+    flexWrap: 'wrap',
+    padding: regular
+  },
+  ratingContainer: {
+    flex: 1,
+    flexDirection: 'row'
   },
   formFields: {
     marginTop: regular,
@@ -132,11 +163,11 @@ export const styles = StyleSheet.create({
   },
   bodyCopy: {
     fontFamily: yomFont,
-    fontSize: regular
+    fontSize: regular,
+    lineHeight: big
   },
-  headingWhite: {
+  heading: {
     fontFamily: yomFont,
-    fontSize: big,
-    color: colors.yomWhite
+    fontSize: big
   }
 })

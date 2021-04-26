@@ -21,11 +21,7 @@ export default function Register () {
           name,
           email,
           unitPref: 'uk',
-          themePref: 'auto',
-          plans: {
-          },
-          lists: {
-          }
+          themePref: 'auto'
         })
       console.log(result)
     } catch (err) {

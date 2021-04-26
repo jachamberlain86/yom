@@ -21,7 +21,9 @@ import RegisterScreen from './components/auth/Register/Register.jsx'
 import DashboardScreen from './components/main/Dashboard/Dashboard.jsx'
 import RecipeBookScreen from './components/main/RecipeBook/RecipeBook.jsx'
 import MealPlanScreen from './components/main/MealPlan/MealPlan.jsx'
-import AddRecipeScreen from './components/recipes/AddRecipe/AddRecipe.jsx'
+import AddLinkScreen from './components/recipes/AddLink/AddLink.jsx'
+import AddImageScreen from './components/recipes/AddImage/AddImage.jsx'
+import AddTextScreen from './components/recipes/AddText/AddText.jsx'
 import RecipeItemScreen from './components/recipes/RecipeItem/RecipeItem.jsx'
 import UploadImageScreen from './components/recipes/UploadImage/UploadImage.jsx'
 
@@ -94,7 +96,9 @@ export default function App () {
             <Stack.Screen name='Dashboard' component={DashboardScreen} />
             <Stack.Screen name='Recipe Book' component={RecipeBookScreen} />
             <Stack.Screen name='Meal Plan' component={MealPlanScreen} />
-            <Stack.Screen name='Add Recipe' component={AddRecipeScreen} />
+            <Stack.Screen name='Add Link' component={AddLinkScreen} />
+            <Stack.Screen name='Add Image' component={AddImageScreen} />
+            <Stack.Screen name='Add Text' component={AddTextScreen} />
             <Stack.Screen name='Recipe Item' component={RecipeItemScreen} />
             <Stack.Screen name='Edit Recipe' component={EditRecipeScreen} />
             <Stack.Screen name='Upload Image' component={UploadImageScreen} />

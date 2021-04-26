@@ -3,19 +3,39 @@ import { Text, View, Button, ScrollView } from 'react-native'
 import pluralize from 'pluralize'
 import prettyMilliseconds from 'pretty-ms'
 import { useSelector } from 'react-redux'
-import { styles } from '../../../styles/app.jsx'
+import { styles, colors } from '../../../styles/app.jsx'
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
+import { selectRecipeById } from '../../../features/Recipes/recipesSlice.js'
 
 export default function RecipeItem ({ route, navigation }) {
+  const { recipeId } = route.params
   const currentUser = useSelector(state => state.user.currentUser)
-  const { recipe } = route.params
+  const recipe = useSelector(state => selectRecipeById(state, recipeId))
 
   const [showMenu, setShowMenu] = useState(false)
 
   const timeMilliseconds = recipe.timeMinutes * 60000
   const prettyTime = prettyMilliseconds(timeMilliseconds, { secondsDecimalDigits: 0, verbose: true })
+
   let renderRating = null
+  const ratingElementStar = <MaterialCommunityIcons name='star' color={colors.yomBlack} size={20} />
+  const ratingElementStarOutline = <MaterialCommunityIcons name='star-outline' color={colors.yomBlack} size={20} />
+
   if (recipe.rating) {
-    renderRating = <Text>{recipe.rating ? pluralize('YOM', recipe.rating, true) : 'Rate this recipe!'}</Text>
+    const ratingElementsArr = Array(5).fill(ratingElementStarOutline)
+    for (let i = 0; i < recipe.rating; i++) {
+      ratingElementsArr[i] = ratingElementStar
+    }
+
+    renderRating = (
+      <View style={styles.ratingContainer}>
+        {ratingElementsArr[0]}
+        {ratingElementsArr[1]}
+        {ratingElementsArr[2]}
+        {ratingElementsArr[3]}
+        {ratingElementsArr[4]}
+      </View>
+    )
   }
 
   const renderedIngredients = recipe.ingredients.map(ingredientObj => {
@@ -102,20 +122,25 @@ export default function RecipeItem ({ route, navigation }) {
     : null
 
   return (
-    <View style={styles.container}>
-      <ScrollView>
+    <View style={styles.mainContainer}>
+      <View style={styles.contentContainer}>
 
-        {menuBtn}
-        {menu}
-        <Text>{recipe.title}</Text>
-        <Text>{recipe.servingSize.type} {recipe.servingSize.number}</Text>
-        <Text>{prettyTime}</Text>
-        {renderRating}
-        {renderedIngredients}
-        {renderedSteps}
-        {renderNotes}
-        <Text>Source: {recipe.source}</Text>
-      </ScrollView>
+        <ScrollView>
+          <View style={styles.recipeTextContainer}>
+
+            {/* {menuBtn}
+          {menu} */}
+            <Text style={[styles.heading, styles.textBlack]}>{recipe.title}</Text>
+            <Text>{recipe.servingSize.type} {recipe.servingSize.number}</Text>
+            <Text>{prettyTime}</Text>
+            {renderRating}
+            {renderedIngredients}
+            {renderedSteps}
+            {renderNotes}
+            <Text>Source: {recipe.source}</Text>
+          </View>
+        </ScrollView>
+      </View>
     </View>
   )
 }

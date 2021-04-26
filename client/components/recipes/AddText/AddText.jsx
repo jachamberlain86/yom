@@ -127,7 +127,7 @@ export default function AddText ({ navigation }) {
         postRecipe(formattedRecipe)
       )
       clearRecipeForm()
-      navigation.navigate('Recipe List')
+      navigation.navigate('Recipe Book')
     } catch (err) {
       console.log(err)
     }
