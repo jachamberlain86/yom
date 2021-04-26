@@ -30,7 +30,6 @@ const giant = hugest * ratio
 
 export const tabBarStyle = {
   backgroundColor: colors.yomBlack
-  // flexGrow: 0
 }
 export const headerStyle = {
   backgroundColor: colors.yomBlack
@@ -45,9 +44,9 @@ export const headerTitleStyle = {
 export const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: colors.yomBlack,
-    width: '100%',
-    height: '100%'
+    backgroundColor: colors.yomBlack
+    // width: '100%',
+    // height: '100%'
   },
   bottomTabNav: {
     backgroundColor: colors.yomBlack
@@ -71,8 +70,8 @@ export const styles = StyleSheet.create({
     paddingRight: biggest
   },
   mainContainer: {
-    flex: 1,
-    height: '100%'
+    flex: 1
+    // height: '100%'
   },
   contentContainer: {
     flexGrow: 1,

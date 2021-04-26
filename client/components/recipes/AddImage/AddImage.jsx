@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react'
 import { StyleSheet, Text, View, Button, Image } from 'react-native'
 import { Camera } from 'expo-camera'
 import * as ImagePicker from 'expo-image-picker'
-import { uploadImage, submitToGoogle } from '../../../controllers/image.js'
+import firebase from 'firebase'
+import { nanoid } from '@reduxjs/toolkit'
 
 export default function AddImage ({ navigation }) {
   const [hasGalleryPermission, setHasGalleryPermission] = useState(null)
@@ -10,8 +11,6 @@ export default function AddImage ({ navigation }) {
   const [camera, setCamera] = useState(null)
   const [image, setImage] = useState(null)
   const [type, setType] = useState(Camera.Constants.Type.back)
-  const [uploading, setUploading] = useState(false)
-  const [googleResponse, setGoogleResponse] = useState(null)
 
   useEffect(() => {
     (async () => {
@@ -44,17 +43,87 @@ export default function AddImage ({ navigation }) {
     }
   }
 
+  async function uploadImage (uri) {
+    const childPath = `post/${firebase.auth().currentUser.uid}/${nanoid()}`
+    console.log(childPath)
+    const response = await window.fetch(uri)
+    const blob = await response.blob()
+
+    const uploadTask = firebase.storage().ref().child(childPath).put(blob)
+
+    const result = await uploadTask.on('state_changed',
+      (snapshot) => {
+      // Observe state change events such as progress, pause, and resume
+      // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+        const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+        console.log('Upload is ' + progress + '% done')
+        switch (snapshot.state) {
+          case firebase.storage.TaskState.PAUSED: // or 'paused'
+            console.log('Upload is paused')
+            break
+          case firebase.storage.TaskState.RUNNING: // or 'running'
+            console.log('Upload is running')
+            break
+        }
+      },
+      (error) => {
+      // Handle unsuccessful uploads
+        console.log(error)
+      },
+      () => {
+      // Handle successful uploads on complete
+      // For instance, get the download URL: https://firebasestorage.googleapis.com/...
+        uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
+          console.log('File available at', downloadURL)
+          submitToGoogle(downloadURL)
+        })
+      }
+    )
+    return result
+  }
+
+  async function submitToGoogle (image) {
+    try {
+      const body = JSON.stringify({
+        requests: [
+          {
+            features: [
+              { type: 'TEXT_DETECTION', maxResults: 10 },
+              { type: 'DOCUMENT_TEXT_DETECTION', maxResults: 10 }
+            ],
+            image: {
+              source: {
+                imageUri: image
+              }
+            }
+          }
+        ]
+      })
+      console.log(body)
+      const response = await window.fetch(
+        'https://vision.googleapis.com/v1/images:annotate?key=' +
+        process.env.GOOGLE_CLOUD_VISION_API_KEY,
+        {
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json'
+          },
+          method: 'POST',
+          body: body
+        }
+      )
+      const parsedResponse = await response.json()
+      console.log('parsed response: ', parsedResponse)
+      navigation.navigate('Upload Image', parsedResponse.responses)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   const handleUpload = async () => {
     console.log('uploading')
     const result = await uploadImage(image)
     console.log('uploaded ', result)
-    setUploading(true)
-    const response = await submitToGoogle(result)
-    console.log('sent to google')
-    console.log('response ', response)
-    setGoogleResponse(response)
-    setUploading(false)
-    navigation.navigate('Upload Image', { response: googleResponse })
   }
 
   if (hasCameraPermission === null || hasGalleryPermission === null) {
