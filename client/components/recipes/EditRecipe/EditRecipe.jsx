@@ -24,7 +24,7 @@ export default function EditRecipe ({ route, navigation }) {
 
   console.log(ingredients)
 
-  const canSave = Boolean(title) && Boolean(servingSize.number) && Boolean(ingredients.length) && Boolean(steps.length)
+  const canSave = Boolean(title) && Boolean(servingSize.number) && Boolean(timeMinutes) && Boolean(ingredients.length) && Boolean(steps.length)
 
   const [showIngredientForm, setShowIngredientForm] = useState(false)
   const [ingredient, setIngredient] = useState('')

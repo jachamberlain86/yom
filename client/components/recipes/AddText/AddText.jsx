@@ -1,11 +1,12 @@
 import React, { useState } from 'react'
-import { Text, View, TextInput, Button, Picker, ScrollView } from 'react-native'
+import { Text, View, TextInput, Button, Picker, Pressable, ScrollView } from 'react-native'
 import pluralize from 'pluralize'
 import { formatRecipeFromText } from '../../../controllers/recipe.js'
 import { useDispatch } from 'react-redux'
 import { nanoid } from '@reduxjs/toolkit'
 import { postRecipe } from '../../../features/Recipes/recipesSlice.js'
-import { styles } from '../../../styles/app.jsx'
+import { styles, colors } from '../../../styles/app.jsx'
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 
 export default function AddText ({ navigation }) {
   const dispatch = useDispatch()
@@ -20,7 +21,7 @@ export default function AddText ({ navigation }) {
   const [tags, setTags] = useState([])
   const [rating, setRating] = useState(null)
 
-  const canSave = Boolean(title) && Boolean(servingSize.number) && Boolean(ingredients.length) && Boolean(steps.length)
+  const canSave = Boolean(title) && Boolean(servingSize.number) && Boolean(timeMinutes) && Boolean(ingredients.length) && Boolean(steps.length)
 
   const [showIngredientForm, setShowIngredientForm] = useState(false)
   const [ingredient, setIngredient] = useState('')
@@ -40,24 +41,73 @@ export default function AddText ({ navigation }) {
 
   const canAddTag = Boolean(tag)
 
-  const renderedIngredients = ingredients.map(ingredientObj => <Text key={ingredientObj}> - {ingredientObj}</Text>)
+  const renderedIngredients = ingredients.map(ingredientObj => <Text key={ingredientObj} style={[styles.bodyCopy, styles.textGreyDark]}>{'\u2022'} {ingredientObj}</Text>)
 
   const renderedSteps = steps.map(stepObj => {
     return (
-      <View key={stepObj.number}>
-        <Text>STEP {stepObj.number}:</Text>
-        <Text>{stepObj.instruction}</Text>
+      <View key={stepObj.number} style={styles.recipeSectionContainer}>
+        <Text style={[styles.bodyCopy, styles.textGreyDark]}>STEP {stepObj.number}:</Text>
+        <Text style={[styles.bodyCopy, styles.textGreyDark]}>{stepObj.instruction}</Text>
       </View>
     )
   })
 
   const renderedTags = tags.map(savedTag => {
     return (
-      <View key={savedTag}>
+      <View key={savedTag} style={[styles.buttonSmall, styles.buttonBlack]}>
         <Text>{savedTag}</Text>
       </View>
     )
   })
+
+  let renderRating = null
+  const ratingElementStar = <MaterialCommunityIcons name='star' color={colors.yomBlack} size={20} />
+  const ratingElementStarOutline = <MaterialCommunityIcons name='star-outline' color={colors.yomBlack} size={20} />
+  const ratingElementStarOutlinePale = <MaterialCommunityIcons name='star-outline' color={colors.yomGreyLight} size={20} />
+
+  const ratingElementsArr = Array(5)
+  if (rating) {
+    ratingElementsArr.fill(ratingElementStarOutline)
+    for (let i = 0; i < rating; i++) {
+      ratingElementsArr[i] = ratingElementStar
+    }
+  } else {
+    ratingElementsArr.fill(ratingElementStarOutlinePale)
+  }
+
+  renderRating = (
+    <View style={styles.ratingContainer}>
+      <Pressable
+      onPress={() => setRating(1)}>
+
+        {ratingElementsArr[0]}
+      </Pressable>
+      <Pressable
+
+      onPress={() => setRating(2)}>
+
+        {ratingElementsArr[1]}
+      </Pressable>
+      <Pressable
+
+      onPress={() => setRating(3)}>
+
+        {ratingElementsArr[2]}
+      </Pressable>
+      <Pressable
+
+      onPress={() => setRating(4)}>
+
+        {ratingElementsArr[3]}
+      </Pressable>
+      <Pressable
+
+      onPress={() => setRating(5)}>
+
+        {ratingElementsArr[4]}
+      </Pressable>
+    </View>
+  )
 
   function clearRecipeForm () {
     clearIngredientForm()
@@ -136,16 +186,18 @@ export default function AddText ({ navigation }) {
   const ingredientForm = showIngredientForm
     ? (
       <View>
-        <Text>Ingredient</Text>
+        <Text>INGREDIENT</Text>
         <TextInput
           placeholder='ingredient'
           onChangeText={(text) => setIngredient(text)}
         />
-        <Button
-          title='Add'
+        <Pressable
+        style={[styles.buttonSmall, styles.buttonBlack]}
           onPress={handleAddIngredient}
           disabled={!canAddIngredient}
-        />
+        >
+          <Text>ADD</Text>
+        </Pressable>
       </View>
       )
     : null
@@ -153,16 +205,18 @@ export default function AddText ({ navigation }) {
   const stepForm = showStepForm
     ? (
       <View>
-        <Text>Instruction</Text>
+        <Text>INSTRUCTION</Text>
         <TextInput
           placeholder='instruction'
           onChangeText={(instruction) => setStep({ ...step, instruction })}
         />
-        <Button
-          title='ADD'
+        <Pressable
+        style={[styles.buttonSmall, styles.buttonBlack]}
           onPress={handleAddStep}
           disabled={!canAddStep}
-        />
+        >
+          <Text>ADD</Text>
+        </Pressable>
       </View>
       )
     : null
@@ -170,82 +224,100 @@ export default function AddText ({ navigation }) {
   const tagForm = showTagForm
     ? (
       <View>
-        <Text>Tag</Text>
+        <Text>TAG:</Text>
         <TextInput
           placeholder='tag'
           onChangeText={(text) => setTag(text)}
         />
-        <Button
-          title='ADD'
+        <Pressable
+        style={[styles.buttonSmall, styles.buttonBlack]}
           onPress={handleAddTag}
           disabled={!canAddTag}
-        />
+        >
+          <Text>ADD</Text>
+        </Pressable>
       </View>
       )
     : null
 
   const ingredientBtn = showIngredientForm
     ? (
-      <Button
-        title='CANCEL'
+      <Pressable
+      style={[styles.buttonSmall, styles.buttonDarkGrey]}
         onPress={() => {
           setShowIngredientForm(false)
           clearIngredientForm()
         }}
-      />
+      >
+        <Text>CANCEL</Text>
+      </Pressable>
       )
     : (
-      <Button
-        title='ADD INGREDIENT'
+      <Pressable
+      style={[styles.buttonSmall, styles.buttonBlack]}
         onPress={() => setShowIngredientForm(true)}
-      />
+      >
+        <Text>ADD INGREDIENT</Text>
+      </Pressable>
       )
 
   const stepBtn = showStepForm
     ? (
-      <Button
-        title='CANCEL'
+      <Pressable
+      style={[styles.buttonSmall, styles.buttonGreyDark]}
         onPress={() => {
           setShowStepForm(false)
           clearStepForm()
         }}
-      />
+      >
+        <Text>CANCEL</Text>
+      </Pressable>
       )
     : (
-      <Button
-        title='ADD STEP'
+      <Pressable
+      style={[styles.buttonSmall, styles.buttonBlack]}
         onPress={() => setShowStepForm(true)}
-      />
+      >
+        <Text>ADD STEP</Text>
+      </Pressable>
       )
 
   const tagBtn = showTagForm
     ? (
-      <Button
-        title='CANCEL'
+      <Pressable
+      style={[styles.buttonSmall, styles.buttonGreyDark]}
         onPress={() => {
           setShowTagForm(false)
           clearTagForm()
         }}
-      />
+      >
+        <Text>CANCEL</Text>
+      </Pressable>
       )
     : (
-      <Button
-        title='ADD TAG'
+      <Pressable
+      style={[styles.buttonSmall, styles.buttonBlack]}
         onPress={() => setShowTagForm(true)}
-      />
+      >
+        <Text>ADD TAG</Text>
+      </Pressable>
       )
 
   return (
-    <View style={styles.container}>
+    <View style={styles.mainContainer}>
 
-      <ScrollView>
-        <Text>Add Recipe</Text>
-        <Text>Title</Text>
+      <View style={[styles.contentContainer, { alignItems: 'flex-start' }]}>
+        <View style={styles.recipeSectionContainer}>
+
+          <Text style={[styles.heading, styles.textBlack]}>Add Recipe</Text>
+        </View>
+        <Text style={[styles.bodyCopy, styles.textBlack]}>TITLE:</Text>
         <TextInput
-          placeholder='title'
+          placeholder='Required'
+          style={[styles.textInput, styles.textGreyDark]}
           onChangeText={(title) => setTitle(title)}
         />
-        <Text>Serving size</Text>
+        <Text style={[styles.bodyCopy, styles.textBlack]}>SERVING SIZE:</Text>
         <Picker
           selectedValue={servingSize.type}
           onValueChange={(itemValue, itemIndex) => setServingSize({ ...servingSize, type: itemValue })}
@@ -254,58 +326,78 @@ export default function AddText ({ navigation }) {
           <Picker.Item label='MAKES' value='MAKES' />
         </Picker>
         <TextInput
-          placeholder='serving number'
+          placeholder='Required'
+          style={[styles.textInput, styles.textGreyDark]}
           keyboardType='numeric'
           onChangeText={(number) => setServingSize({ ...servingSize, number })}
         />
-        <Text>Time</Text>
+        <Text style={[styles.bodyCopy, styles.textBlack]}>MINS TO MAKE:</Text>
         <TextInput
-          placeholder='time to prepare'
+          placeholder='Required'
+          style={[styles.textInput, styles.textGreyDark]}
           keyboardType='numeric'
           onChangeText={(timeMinutes) => setTimeMinutes(timeMinutes)}
         />
-        <View>
-          <Text>Ingredients</Text>
+        <View style={styles.recipeSectionContainer}>
+          <Text style={[styles.bodyCopy, styles.textBlack]}>INGREDIENTS:</Text>
           {renderedIngredients}
           {ingredientForm}
           {ingredientBtn}
         </View>
-        <View>
-          <Text>Steps</Text>
+        <View style={styles.recipeSectionContainer}>
+          <Text style={[styles.bodyCopy, styles.textBlack]}>STEPS:</Text>
           {renderedSteps}
           {stepForm}
           {stepBtn}
         </View>
-        <Text>Notes</Text>
+        <Text style={[styles.bodyCopy, styles.textBlack]}>NOTES:</Text>
         <TextInput
-          placeholder='additional notes'
+          style={[styles.textInput, styles.textGreyDark]}
+          placeholder='Optional'
           onChangeText={(notes) => setNotes(notes)}
         />
-        <Text>Source</Text>
+        <Text style={[styles.bodyCopy, styles.textBlack]}>SOURCE:</Text>
         <TextInput
-          placeholder='source'
+          placeholder='Optional'
+          style={[styles.textInput, styles.textGreyDark]}
           onChangeText={(source) => setSource(source)}
         />
-        <View>
-          <Text>Tags</Text>
-          {renderedTags}
+        <View style={styles.recipeSectionContainer}>
+          <Text style={[styles.bodyCopy, styles.textBlack]}>TAGS:</Text>
+          <View style={styles.recipeTagsContainer}>
+
+            {renderedTags}
+          </View>
           {tagForm}
           {tagBtn}
         </View>
-        <View>
-          <Text>YOM Rating</Text>
-          <Text>{rating ? pluralize('YOM', rating, true) : 'Rate this recipe!'}</Text>
-          <Button title='1' onPress={() => setRating(1)} />
-          <Button title='2' onPress={() => setRating(2)} />
-          <Button title='3' onPress={() => setRating(3)} />
-          <Button title='4' onPress={() => setRating(4)} />
-          <Button title='5' onPress={() => setRating(5)} />
-          <Button title='Remove Rating' onPress={() => setRating(null)} />
+        <View style={styles.recipeSectionContainer}>
+          <Text style={[styles.bodyCopy, styles.textBlack]}>YOM RATING:</Text>
+          {renderRating}
+          <View style={styles.recipeTagsContainer} />
+          {rating && <Pressable
+            title='Remove Rating'
+            style={[styles.buttonSmall, styles.buttonBlack]}
+            onPress={() => setRating(null)}
+                     >
+            <Text style={[styles.bodyCopy, styles.textWhite]}>CLEAR RATING</Text>
+                     </Pressable>}
         </View>
-        <Button title='SAVE' onPress={() => handleSaveRecipe()} disabled={!canSave} />
-        <Button title='CANCEL' onPress={() => navigation.navigate('Recipe List')} />
+        <Pressable
+          style={[styles.button, styles.buttonBlack]}
+          onPress={() => handleSaveRecipe()}
+          disabled={!canSave}
+        >
+          <Text style={[styles.buttonText, styles.textWhite]}>SAVE</Text>
+        </Pressable>
+        <Pressable
+          style={[styles.button, styles.buttonGreyDark]}
+          onPress={() => navigation.navigate('Recipe Book')}
+        >
+          <Text style={[styles.buttonText, styles.textWhite]}>CANCEL</Text>
+        </Pressable>
 
-      </ScrollView>
+      </View>
     </View>
   )
 }

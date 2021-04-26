@@ -47,44 +47,48 @@ export default function RecipeItem ({ route, navigation }) {
       return regEx.test(ingredientObj.name)
         ? (
           <View key={ingredientObj.name}>
-            <Text style={{ color: 'red' }}>Oops! Something went wrong. Edit this ingredient and try again.</Text>
-            <Text style={{ color: 'red' }}>- {ingredientObj.name}</Text>
+            <Text style={[styles.bodyCopy, styles.textRed]}>Oops! Something went wrong. Edit this ingredient and try again.</Text>
+            <Text style={[styles.bodyCopy, styles.textRed]}>{'\u2022'} {ingredientObj.name}</Text>
           </View>
           )
         : (
-          <Text key={ingredientObj.name}>- {ingredientObj.name}</Text>
+          <Text
+            key={ingredientObj.name}
+            style={[styles.bodyCopy, styles.textBlack]}
+          >{'\u2022'} {ingredientObj.name}
+          </Text>
           )
     } else if (!ingredientObj[currentUser.unitPref].unit) {
       const pluralIngredient = pluralize(ingredientObj.name, ingredientObj[currentUser.unitPref].amount)
       return (
-        <Text key={ingredientObj.id}>- {ingredientObj[currentUser.unitPref].amount} {pluralIngredient}{modifiers}</Text>
+        <Text key={ingredientObj.id} style={[styles.bodyCopy, styles.textBlack]}>{'\u2022'} {ingredientObj[currentUser.unitPref].amount} {pluralIngredient}{modifiers}</Text>
       )
     } else if (!units.includes(ingredientObj[currentUser.unitPref].unit)) {
       const pluralUnit = pluralize(ingredientObj[currentUser.unitPref].unit, ingredientObj[currentUser.unitPref].amount, true)
       return (
-        <Text key={ingredientObj.id}>- {pluralUnit} {ingredientObj.name}{modifiers}</Text>
+        <Text key={ingredientObj.id} style={[styles.bodyCopy, styles.textBlack]}>{'\u2022'} {pluralUnit} {ingredientObj.name}{modifiers}</Text>
       )
     } else {
       return (
-        <Text key={ingredientObj.id}>- {ingredientObj[currentUser.unitPref].amount}{ingredientObj[currentUser.unitPref].unit} {ingredientObj.name}{modifiers}</Text>
+        <Text key={ingredientObj.id} style={[styles.bodyCopy, styles.textBlack]}>{'\u2022'} {ingredientObj[currentUser.unitPref].amount}{ingredientObj[currentUser.unitPref].unit} {ingredientObj.name}{modifiers}</Text>
       )
     }
   }
   )
 
   const renderedSteps = recipe.steps.map(step => (
-    <View key={step.number}>
-      <Text>Step {step.number}:</Text>
-      <Text>{step.instruction}</Text>
+    <View key={step.number} style={styles.recipeSectionContainer}>
+      <Text style={[styles.bodyCopy, styles.textBlack]}>STEP {step.number}:</Text>
+      <Text style={[styles.bodyCopy, styles.textBlack]}>{step.instruction}</Text>
     </View>
   ))
 
   let renderNotes = null
   if (recipe.notes) {
     renderNotes = (
-      <View>
-        <Text>Notes:</Text>
-        <Text>{recipe.notes}</Text>
+      <View style={styles.recipeSectionContainer}>
+        <Text style={[styles.bodyCopy, styles.textBlack]}>NOTES:</Text>
+        <Text style={[styles.bodyCopy, styles.textBlack]}>{recipe.notes}</Text>
       </View>
     )
   }
@@ -125,21 +129,30 @@ export default function RecipeItem ({ route, navigation }) {
     <View style={styles.mainContainer}>
       <View style={styles.contentContainer}>
 
-        <ScrollView>
-          <View style={styles.recipeTextContainer}>
+        <View style={styles.recipeTextContainer}>
 
-            {/* {menuBtn}
+          {/* {menuBtn}
           {menu} */}
+          <View style={styles.recipeSectionContainer}>
+
             <Text style={[styles.heading, styles.textBlack]}>{recipe.title}</Text>
-            <Text>{recipe.servingSize.type} {recipe.servingSize.number}</Text>
-            <Text>{prettyTime}</Text>
+            <Text style={[styles.bodyCopy, styles.textBlack]}>{recipe.servingSize.type} {recipe.servingSize.number}</Text>
+            <Text style={[styles.bodyCopy, styles.textBlack]}>{prettyTime}</Text>
             {renderRating}
-            {renderedIngredients}
-            {renderedSteps}
-            {renderNotes}
-            <Text>Source: {recipe.source}</Text>
           </View>
-        </ScrollView>
+          <View style={styles.recipeSectionContainer}>
+
+            {renderedIngredients}
+          </View>
+          <View style={styles.recipeSectionContainer}>
+            {renderedSteps}
+          </View>
+          {renderNotes}
+          <View style={styles.recipeSectionContainer}>
+
+            <Text style={[styles.bodyCopy, styles.textBlack]}>SOURCE: {recipe.source}</Text>
+          </View>
+        </View>
       </View>
     </View>
   )

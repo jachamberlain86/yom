@@ -108,7 +108,7 @@ export default function RecipeCard ({ navigation, recipeId }) {
         <View style={styles.recipeCard}>
           {renderedImage}
           <View style={styles.recipeCardTextContainer}>
-            <Text style={[styles.bodyCopy, styles.textBlack]} numberOfLines={3}>{recipe.title}</Text>
+            <Text style={[styles.bodyCopy, styles.textBlack]} numberOfLines={2}>{recipe.title}</Text>
           </View>
         </View>
         {cardDetails}
@@ -116,7 +116,7 @@ export default function RecipeCard ({ navigation, recipeId }) {
       {/* <Pressable
         title='DELETE'
       >
-        <View style={styles.recipeCardIcon}>
+        <View style={[styles.recipeCardIcon, styles.recipeCardIconRed]}>
           <MaterialCommunityIcons name='trash-can' color={colors.yomWhite} size={24} />
         </View>
       </Pressable> */}

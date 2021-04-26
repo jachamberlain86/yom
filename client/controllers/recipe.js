@@ -140,7 +140,7 @@ function formatIngredientForRecipe (ingredient) {
   ingredient.unit = ingredient.unit.toLowerCase()
 
   const unitsUk = ['ml', 'l', 'g', 'kg', 'cm', 'mm']
-  const unitsUs = ['fl oz', 'cup', 'pt', 'qt', 'gal', 'lb', 'oz', 'in', 'stick']
+  const unitsUs = ['fl oz', 'cup', 'cups', 'pt', 'qt', 'gal', 'lb', 'oz', 'in', 'stick', 'sticks']
 
   if (ingredient.unit && unitsUk.includes(ingredient.unit)) {
     const convertedUnit = calcUkToUsConversion(ingredient)
@@ -284,13 +284,13 @@ function calcUsToUkConversion (ingredient) {
       convertedUnits.uk.unit = 'mm'
       convertedUnits.uk.amount = Math.round(convert(ingredient.amount).from('in').to('mm'))
       break
-    case 'stick':
+    case 'stick' || 'sticks':
       convertedUnits.us.unit = ingredient.unit
       convertedUnits.us.amount = ingredient.amount
       convertedUnits.uk.unit = 'cup'
       convertedUnits.uk.amount = ingredient.amount / 2
       break
-    case 'cup':
+    case 'cup' || 'cups':
       if (ingredient.consistency === 'liquid') {
         convertedUnits.us.unit = ingredient.unit
         convertedUnits.us.amount = ingredient.amount

@@ -5,13 +5,15 @@ export const colors = {
   yomWhite: '#EEE',
   yomGreyDark: '#545353',
   yomGreyLight: '#C4C4C4',
-  yomGreyLightest: '#E5E5E5'
+  yomGreyLightest: '#E5E5E5',
+  yomRedPale: '#F05D5D',
+  yomRed: 'red'
 }
 
 const yomFont = 'JosefinSans_600SemiBold'
 
 const ratio = 1.5
-const regular = 14 * PixelRatio.getFontScale()
+const regular = 16 * PixelRatio.getFontScale()
 const small = regular / ratio
 const smaller = small / ratio
 const smallest = smaller / ratio
@@ -60,6 +62,8 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     margin: bigger,
+    marginTop: big,
+    marginBottom: big,
     padding: big,
     borderStyle: 'solid',
     borderWidth: 4,
@@ -67,8 +71,9 @@ export const styles = StyleSheet.create({
   },
   headerContainer: {
     margin: bigger,
+    marginTop: big,
     marginBottom: 0,
-    padding: big,
+    padding: regular,
     backgroundColor: colors.yomBlack
   },
   logoLarge: {
@@ -84,7 +89,16 @@ export const styles = StyleSheet.create({
     marginTop: regular,
     marginBottom: regular,
     padding: regular,
-    backgroundColor: colors.yomWhite,
+    alignSelf: 'center',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  buttonSmall: {
+    height: big,
+    marginTop: small,
+    marginBottom: small,
+    padding: regular,
+    backgroundColor: colors.yomBlack,
     justifyContent: 'center',
     alignItems: 'center'
   },
@@ -106,6 +120,9 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center'
   },
+  recipeCardIconRed: {
+    backgroundColor: colors.yomRedPale
+  },
   recipeCardTextContainer: {
     flex: 1,
     flexWrap: 'wrap',
@@ -124,10 +141,16 @@ export const styles = StyleSheet.create({
   },
   recipeTextContainer: {
     flex: 1,
-    flexWrap: 'wrap',
-    padding: regular
+    flexWrap: 'wrap'
   },
   ratingContainer: {
+    flex: 1,
+    flexDirection: 'row'
+  },
+  recipeSectionContainer: {
+    marginBottom: big
+  },
+  recipeTagsContainer: {
     flex: 1,
     flexDirection: 'row'
   },
@@ -147,6 +170,9 @@ export const styles = StyleSheet.create({
   buttonGreyDark: {
     backgroundColor: colors.yomGreyDark
   },
+  buttonBlack: {
+    backgroundColor: colors.yomBlack
+  },
   buttonText: {
     fontSize: big,
     fontFamily: yomFont
@@ -161,6 +187,12 @@ export const styles = StyleSheet.create({
   textBlack: {
     color: colors.yomBlack
   },
+  textRed: {
+    color: colors.yomRed
+  },
+  textGreyDark: {
+    color: colors.yomGreyDark
+  },
   bodyCopy: {
     fontFamily: yomFont,
     fontSize: regular,
@@ -168,6 +200,8 @@ export const styles = StyleSheet.create({
   },
   heading: {
     fontFamily: yomFont,
-    fontSize: big
+    fontSize: big,
+    lineHeight: bigger,
+    textTransform: 'uppercase'
   }
 })
