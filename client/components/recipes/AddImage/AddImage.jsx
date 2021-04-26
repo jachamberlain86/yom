@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { StyleSheet, Text, View, Button, Image } from 'react-native'
 import { Camera } from 'expo-camera'
 import * as ImagePicker from 'expo-image-picker'
-import { uploadImage } from '../../../controllers/image.js'
+import { uploadImage, submitToGoogle } from '../../../controllers/image.js'
 
 export default function AddImage ({ navigation }) {
   const [hasGalleryPermission, setHasGalleryPermission] = useState(null)
@@ -10,6 +10,8 @@ export default function AddImage ({ navigation }) {
   const [camera, setCamera] = useState(null)
   const [image, setImage] = useState(null)
   const [type, setType] = useState(Camera.Constants.Type.back)
+  const [uploading, setUploading] = useState(false)
+  const [googleResponse, setGoogleResponse] = useState(null)
 
   useEffect(() => {
     (async () => {
@@ -35,7 +37,7 @@ export default function AddImage ({ navigation }) {
       quality: 1
     })
 
-    console.log(result)
+    console.log('pick image result ', result)
 
     if (!result.cancelled) {
       setImage(result.uri)
@@ -43,8 +45,16 @@ export default function AddImage ({ navigation }) {
   }
 
   const handleUpload = async () => {
+    console.log('uploading')
     const result = await uploadImage(image)
-    navigation.navigate('Upload Image', { image: result })
+    console.log('uploaded ', result)
+    setUploading(true)
+    const response = await submitToGoogle(result)
+    console.log('sent to google')
+    console.log('response ', response)
+    setGoogleResponse(response)
+    setUploading(false)
+    navigation.navigate('Upload Image', { response: googleResponse })
   }
 
   if (hasCameraPermission === null || hasGalleryPermission === null) {
@@ -95,7 +105,11 @@ export default function AddImage ({ navigation }) {
         </View>
         <Button
           title='UPLOAD'
-          onPress={() => { handleUpload() }}
+          onPress={() => {
+            {
+              console.log('pressed upload')
+              handleUpload() }
+          }}
         />
         <Button
           title='CANCEL'
