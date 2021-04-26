@@ -19,38 +19,40 @@ export default function Login () {
 
   return (
     <View style={styles.authContainer}>
-      <View style={styles.formFields}>
-        <Text
-          style={[styles.fieldHeader, styles.textWhite]}
-        >
-          username
-        </Text>
-        <TextInput
-          style={styles.textInput}
-          placeholder='email'
-          keyboardType='email-address'
-          onChangeText={(email) => setUser({ ...user, email })}
-        />
+      <View style={styles.authContentContainer}>
+        <View style={styles.formFields}>
+          <Text
+            style={[styles.bodyCopy, styles.textWhite]}
+          >
+            USERNAME:
+          </Text>
+          <TextInput
+            style={styles.textInput}
+            placeholder='email'
+            keyboardType='email-address'
+            onChangeText={(email) => setUser({ ...user, email })}
+          />
 
-        <Text
-          style={[styles.fieldHeader, styles.textWhite]}
+          <Text
+            style={[styles.bodyCopy, styles.textWhite]}
+          >
+            PASSWORD:
+          </Text>
+          <TextInput
+            style={styles.textInput}
+            placeholder='password'
+            secureTextEntry
+            onChangeText={(password) => setUser({ ...user, password })}
+          />
+        </View>
+        <Pressable
+          disabled={!canLogin}
+          style={[styles.button, styles.buttonWhite]}
+          onPress={() => onSignIn()}
         >
-          password
-        </Text>
-        <TextInput
-          style={styles.textInput}
-          placeholder='password'
-          secureTextEntry
-          onChangeText={(password) => setUser({ ...user, password })}
-        />
+          <Text style={[styles.buttonText, styles.textBlack]}>SIGN IN</Text>
+        </Pressable>
       </View>
-      <Pressable
-        disabled={!canLogin}
-        style={[styles.button, styles.buttonWhite]}
-        onPress={() => onSignIn()}
-      >
-        <Text style={[styles.buttonText, styles.textBlack]}>SIGN IN</Text>
-      </Pressable>
     </View>
   )
 }

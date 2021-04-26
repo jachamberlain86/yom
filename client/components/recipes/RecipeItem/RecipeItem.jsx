@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Text, View, Button, ScrollView } from 'react-native'
+import { Text, View, Button } from 'react-native'
 import pluralize from 'pluralize'
 import prettyMilliseconds from 'pretty-ms'
 import { useSelector } from 'react-redux'
@@ -93,43 +93,43 @@ export default function RecipeItem ({ route, navigation }) {
     )
   }
 
-  const menuBtn = showMenu
-    ? (
-      <Button
-        title='CANCEL'
-        onPress={() => {
-          setShowMenu(false)
-        }}
-      />
-      )
-    : (
-      <Button
-        title='MENU'
-        onPress={() => setShowMenu(true)}
-      />
-      )
+  // const menuBtn = showMenu
+  //   ? (
+  //     <Button
+  //       title='CANCEL'
+  //       onPress={() => {
+  //         setShowMenu(false)
+  //       }}
+  //     />
+  //     )
+  //   : (
+  //     <Button
+  //       title='MENU'
+  //       onPress={() => setShowMenu(true)}
+  //     />
+  //     )
 
-  const menu = showMenu
-    ? (
-      <View>
-        <Button
-          title='EDIT'
-        />
-        <Button
-          title='DELETE'
-        />
-        <Button
-          title='ADD TO MENU'
-        />
-      </View>
-      )
-    : null
+  // const menu = showMenu
+  //   ? (
+  //     <View>
+  //       <Button
+  //         title='EDIT'
+  //       />
+  //       <Button
+  //         title='DELETE'
+  //       />
+  //       <Button
+  //         title='ADD TO MENU'
+  //       />
+  //     </View>
+  //     )
+  //   : null
 
   return (
     <View style={styles.mainContainer}>
       <View style={styles.contentContainer}>
 
-        <View style={styles.recipeTextContainer}>
+        <View style={styles.scrollableItem}>
 
           {/* {menuBtn}
           {menu} */}

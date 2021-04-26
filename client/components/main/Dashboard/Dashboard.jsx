@@ -1,11 +1,8 @@
-import React, { useState, setState, useEffect } from 'react'
-import { Text, View, Button } from 'react-native'
+import React from 'react'
+import { View } from 'react-native'
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import { tabBarStyle, colors, styles } from '../../../styles/app.jsx'
-
-import { useSelector, useDispatch } from 'react-redux'
-import { fetchUser } from '../../../features/User/userSlice.js'
 
 import HomeScreen from '../Home/Home.jsx'
 import ShoppingListScreen from '../ShoppingList/ShoppingList.jsx'
@@ -19,11 +16,9 @@ export default function Dashboard () {
   return (
     <View style={styles.screenContainer}>
       <View style={styles.mainContainer}>
-
         <HomeScreen />
       </View>
       <View>
-
         <Tab.Navigator
           labeled={false}
           activeColor={colors.yomWhite}

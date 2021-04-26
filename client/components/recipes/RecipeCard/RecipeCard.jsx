@@ -100,7 +100,6 @@ export default function RecipeCard ({ navigation, recipeId }) {
 
   return (
     <View>
-
       <Pressable
         onPress={() => navigation.navigate('Recipe Item', { recipeId: recipe.id })}
         onLongPress={showDetails}

@@ -4,6 +4,7 @@ import { mockRecipe } from '../api/mock-recipe.js'
 import convert from 'convert-units'
 import { titleCase } from 'title-case'
 import { sentenceCase } from 'sentence-case'
+import firebase from 'firebase'
 
 export function formatRecipeFromLink (recipe) {
   console.log(recipe)

@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { Text, View } from 'react-native'
+import { Text, View, Pressable } from 'react-native'
 import { useSelector, useDispatch } from 'react-redux'
 import { fetchUser } from '../../../features/User/userSlice.js'
 import { fetchRecipes } from '../../../features/Recipes/recipesSlice.js'
@@ -34,7 +34,33 @@ export default function Home () {
       </View>
     )
   } else if (userStatus === 'succeeded' && recipesStatus === 'succeeded') {
-    homeContent = <Text style={[styles.bodyCopy, styles.textBlack]}>{currentUser.name} is logged in</Text>
+    homeContent = (
+
+      <View style={styles.scrollableItem}>
+
+        <Pressable
+          style={[styles.headerContainerInternal]}
+        >
+          <Text style={[styles.headingInternal, styles.textWhite]}>ON THE MENU</Text>
+        </Pressable>
+        <Pressable
+          style={[styles.headerContainerInternal, styles.buttonGreyLight]}
+        >
+          <Text style={[styles.headingInternal, styles.textBlack]}>CREATE MENU</Text>
+        </Pressable>
+        <Pressable
+          style={[styles.headerContainerInternal]}
+        >
+          <Text style={[styles.headingInternal, styles.textWhite]}>RECIPE BOOK</Text>
+        </Pressable>
+        <Pressable
+          style={[styles.headerContainerInternal, styles.buttonGreyLight]}
+        >
+          <Text style={[styles.headingInternal, styles.textBlack]}>ADD A RECIPE</Text>
+        </Pressable>
+
+      </View>
+    )
   } else if (userStatus === 'failed') {
     homeContent = <Text style={[styles.bodyCopy, styles.textBlack]}>{userError}</Text>
   } else if (recipesStatus === 'failed') {
@@ -42,8 +68,10 @@ export default function Home () {
   }
 
   return (
-    <View style={styles.contentContainer}>
-      {homeContent}
+    <View style={styles.mainContainer}>
+      <View style={styles.contentContainer}>
+        {homeContent}
+      </View>
     </View>
   )
 }

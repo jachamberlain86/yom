@@ -2,8 +2,8 @@ import 'react-native-gesture-handler'
 import React, { useState, useEffect } from 'react'
 import { Provider } from 'react-redux'
 import store from './app/store.js'
-import EditRecipeScreen from './components/recipes/EditRecipe/EditRecipe.jsx'
-import { styles } from './styles/app.jsx'
+
+import { styles, headerStyle, headerTitleStyle, colors } from './styles/app.jsx'
 import { useFonts, JosefinSans_600SemiBold } from '@expo-google-fonts/josefin-sans'
 import AppLoading from 'expo-app-loading'
 import { SafeAreaView, StyleSheet, Text, View } from 'react-native'
@@ -26,15 +26,16 @@ import AddImageScreen from './components/recipes/AddImage/AddImage.jsx'
 import AddTextScreen from './components/recipes/AddText/AddText.jsx'
 import RecipeItemScreen from './components/recipes/RecipeItem/RecipeItem.jsx'
 import UploadImageScreen from './components/recipes/UploadImage/UploadImage.jsx'
+import EditNewRecipeScreen from './components/recipes/EditNewRecipe/EditNewRecipe.jsx'
 
 const firebaseConfig = {
-  apiKey: process.env.API_KEY,
-  authDomain: process.env.AUTH_DOMAIN,
-  projectId: process.env.PROJECT_ID,
-  storageBucket: process.env.STORAGE_BUCKET,
-  messagingSenderId: process.env.MESSAGING_SENDER_ID,
-  appId: process.env.APP_ID,
-  measurementId: process.env.MEASUREMENT_ID
+  apiKey: process.env.FIREBASE_API_KEY,
+  authDomain: process.env.FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.FIREBASE_PROJECT_ID,
+  storageBucket: process.env.FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.FIREBASE_APP_ID,
+  measurementId: process.env.FIREBASE_MEASUREMENT_ID
 }
 
 if (firebase.apps.length === 0) {
@@ -65,19 +66,18 @@ export default function App () {
 
   if (!status.loaded || !fontsLoaded) {
     return (
-      <SafeAreaView style={styles.safeArea}>
-
-        <AppLoading />
-      </SafeAreaView>
+      <AppLoading />
     )
   }
   if (!status.loggedIn) {
     return (
       <SafeAreaView style={styles.safeArea}>
-
         <NavigationContainer>
           <Stack.Navigator
             initialRouteName='Landing'
+            screenOptions={{
+              gestureEnabled: true
+            }}
           >
             <Stack.Screen name='Landing' component={LandingScreen} options={{ headerShown: false }} />
             <Stack.Screen name='Login' component={LoginScreen} />
@@ -90,9 +90,18 @@ export default function App () {
   return (
     <Provider store={store}>
       <SafeAreaView style={styles.safeArea}>
-
         <NavigationContainer>
-          <Stack.Navigator initialRouteName='Dashboard'>
+          <Stack.Navigator
+            initialRouteName='Dashboard'
+            screenOptions={{
+              gestureEnabled: true,
+              headerStyle: headerStyle,
+              headerTitleStyle: headerTitleStyle,
+              headerTintStyle: colors.yomWhite,
+              headerBackTitleVisible: false
+            }}
+            headerMode='float'
+          >
             <Stack.Screen name='Dashboard' component={DashboardScreen} />
             <Stack.Screen name='Recipe Book' component={RecipeBookScreen} />
             <Stack.Screen name='Meal Plan' component={MealPlanScreen} />
@@ -100,7 +109,7 @@ export default function App () {
             <Stack.Screen name='Add Image' component={AddImageScreen} />
             <Stack.Screen name='Add Text' component={AddTextScreen} />
             <Stack.Screen name='Recipe Item' component={RecipeItemScreen} />
-            <Stack.Screen name='Edit Recipe' component={EditRecipeScreen} />
+            <Stack.Screen name='Edit New Recipe' component={EditNewRecipeScreen} />
             <Stack.Screen name='Upload Image' component={UploadImageScreen} />
           </Stack.Navigator>
         </NavigationContainer>

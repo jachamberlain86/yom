@@ -21,10 +21,10 @@ export default function RecipeList ({ navigation }) {
       </View>
 
       <View style={styles.contentContainer}>
-        <View style={{ flex: 1 }} />
-        <ScrollView>
+        <View style={styles.scrollableItem}>
+
           {renderedRecipes}
-        </ScrollView>
+        </View>
       </View>
     </View>
   )

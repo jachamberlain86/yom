@@ -30,12 +30,24 @@ const giant = hugest * ratio
 
 export const tabBarStyle = {
   backgroundColor: colors.yomBlack
+  // flexGrow: 0
+}
+export const headerStyle = {
+  backgroundColor: colors.yomBlack
+  // flexGrow: 0
+}
+export const headerTitleStyle = {
+  fontSize: regular,
+  fontFamily: yomFont,
+  color: colors.yomWhite
 }
 
 export const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: colors.yomBlack
+    backgroundColor: colors.yomBlack,
+    width: '100%',
+    height: '100%'
   },
   bottomTabNav: {
     backgroundColor: colors.yomBlack
@@ -48,31 +60,45 @@ export const styles = StyleSheet.create({
   },
   authContainer: {
     flex: 1,
-    backgroundColor: colors.yomBlack,
-    color: colors.yomWhite,
+    backgroundColor: colors.yomBlack
+  },
+  authContentContainer: {
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    flex: 1,
     justifyContent: 'center',
-    paddingLeft: huge,
-    paddingRight: huge
+    paddingLeft: biggest,
+    paddingRight: biggest
   },
   mainContainer: {
-    flex: 1
+    flex: 1,
+    height: '100%'
   },
   contentContainer: {
-    flex: 1,
+    flexGrow: 1,
+    overflow: 'hidden',
+    position: 'relative',
     justifyContent: 'center',
     alignItems: 'center',
     margin: bigger,
     marginTop: big,
     marginBottom: big,
-    padding: big,
     borderStyle: 'solid',
     borderWidth: 4,
     borderColor: colors.yomBlack
   },
   headerContainer: {
+    // flewGrow: 0,
     margin: bigger,
     marginTop: big,
     marginBottom: 0,
+    padding: regular,
+    backgroundColor: colors.yomBlack
+  },
+  headerContainerInternal: {
+    // flewGrow: 0,
+    marginTop: small,
+    marginBottom: small,
     padding: regular,
     backgroundColor: colors.yomBlack
   },
@@ -89,7 +115,7 @@ export const styles = StyleSheet.create({
     marginTop: regular,
     marginBottom: regular,
     padding: regular,
-    alignSelf: 'center',
+    alignSelf: 'stretch',
     justifyContent: 'center',
     alignItems: 'center'
   },
@@ -101,6 +127,29 @@ export const styles = StyleSheet.create({
     backgroundColor: colors.yomBlack,
     justifyContent: 'center',
     alignItems: 'center'
+  },
+  tag: {
+    height: big,
+    marginTop: small,
+    marginBottom: small,
+    padding: regular,
+    backgroundColor: colors.yomGreyDark,
+    justifyContent: 'center',
+    alignItems: 'center',
+    textTransform: 'uppercase'
+  },
+  scrollableItem: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    overflow: 'scroll',
+    padding: big
+  },
+  fixedItem: {
+    overflow: 'scroll',
+    padding: big
   },
   recipeCard: {
     flex: 1,
@@ -126,9 +175,10 @@ export const styles = StyleSheet.create({
   recipeCardTextContainer: {
     flex: 1,
     flexWrap: 'wrap',
-    padding: regular,
-    justifyContent: 'flex-end',
-    textOverflow: 'ellipsis'
+    padding: small,
+    paddingLeft: regular,
+    paddingRight: regular,
+    justifyContent: 'flex-end'
   },
   recipeCardDetailsContainer: {
     flex: 1,
@@ -141,7 +191,7 @@ export const styles = StyleSheet.create({
   },
   recipeTextContainer: {
     flex: 1,
-    flexWrap: 'wrap'
+    alignSelf: 'stretch'
   },
   ratingContainer: {
     flex: 1,
@@ -159,10 +209,24 @@ export const styles = StyleSheet.create({
     marginBottom: regular
   },
   textInput: {
-    color: colors.yomGreyLightest,
+    color: colors.yomWhite,
     marginTop: small,
     marginBottom: regular,
-    padding: small
+    padding: small,
+    borderStyle: 'solid',
+    borderWidth: 2,
+    borderColor: colors.yomBlack,
+    alignSelf: 'stretch'
+  },
+  picker: {
+    backgroundColor: colors.yomWhite,
+    marginTop: small,
+    marginBottom: regular,
+    padding: small,
+    borderStyle: 'solid',
+    borderWidth: 2,
+    borderColor: colors.yomBlack,
+    alignSelf: 'stretch'
   },
   buttonWhite: {
     backgroundColor: colors.yomWhite
@@ -173,12 +237,17 @@ export const styles = StyleSheet.create({
   buttonBlack: {
     backgroundColor: colors.yomBlack
   },
+  buttonGreyLight: {
+    backgroundColor: colors.yomGreyLight
+  },
   buttonText: {
     fontSize: big,
+    lineHeight: bigger,
     fontFamily: yomFont
   },
   fieldHeader: {
     fontSize: big,
+    lineHeight: bigger,
     fontFamily: yomFont
   },
   textWhite: {
@@ -203,5 +272,20 @@ export const styles = StyleSheet.create({
     fontSize: big,
     lineHeight: bigger,
     textTransform: 'uppercase'
+  },
+  headingInternal: {
+    fontFamily: yomFont,
+    fontSize: regular,
+    lineHeight: big,
+    textTransform: 'uppercase'
+  },
+  recipeFieldHeader: {
+    marginTop: small
+  },
+  centerVertical: {
+    // justifySelf: 'center'
+  },
+  centerHorizontal: {
+    alignSelf: 'center'
   }
 })
