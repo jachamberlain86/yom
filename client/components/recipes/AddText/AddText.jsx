@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Text, View, TextInput, Picker, Pressable } from 'react-native'
+import { Text, View, TextInput, Picker, Pressable, ScrollView } from 'react-native'
 import { formatRecipeFromText } from '../../../controllers/recipe.js'
 import { useDispatch } from 'react-redux'
 import { nanoid } from '@reduxjs/toolkit'
@@ -11,7 +11,7 @@ export default function AddText ({ navigation }) {
   const dispatch = useDispatch()
 
   const [title, setTitle] = useState('')
-  const [servingSize, setServingSize] = useState({ number: null, type: 'SERVES' })
+  const [servingSize, setServingSize] = useState(null)
   const [timeMinutes, setTimeMinutes] = useState(null)
   const [ingredients, setIngredients] = useState([])
   const [steps, setSteps] = useState([])
@@ -20,7 +20,7 @@ export default function AddText ({ navigation }) {
   const [tags, setTags] = useState([])
   const [rating, setRating] = useState(null)
 
-  const canSave = Boolean(title) && Boolean(servingSize.number) && Boolean(timeMinutes) && Boolean(ingredients.length) && Boolean(steps.length)
+  const canSave = Boolean(title) && Boolean(servingSize) && Boolean(timeMinutes) && Boolean(ingredients.length) && Boolean(steps.length)
 
   const [showIngredientForm, setShowIngredientForm] = useState(false)
   const [ingredient, setIngredient] = useState('')
@@ -90,7 +90,7 @@ export default function AddText ({ navigation }) {
   }
 
   renderRating = (
-    <View style={[styles.ratingContainer, styles.recipeFieldHeader]}>
+    <View style={[styles.ratingContainer, styles.recipeFieldHeader, { alignSelf: 'center', marginBottom: 10 }]}>
       <Pressable
         onPress={() => setRating(1)}
       >
@@ -136,8 +136,8 @@ export default function AddText ({ navigation }) {
     clearStepForm()
     clearTagForm()
     setTitle('')
-    setServingSize({ number: 0, type: 'SERVES' })
-    setTimeMinutes(0)
+    setServingSize(null)
+    setTimeMinutes(null)
     setIngredients([])
     setSteps([])
     setNotes('')
@@ -332,7 +332,7 @@ export default function AddText ({ navigation }) {
     <View style={styles.mainContainer}>
 
       <View style={styles.contentContainer}>
-        <View style={styles.scrollableItem}>
+        <ScrollView style={styles.scrollableItem}>
 
           <View style={styles.recipeSectionContainer}>
 
@@ -345,20 +345,12 @@ export default function AddText ({ navigation }) {
             onChangeText={(title) => setTitle(title)}
           />
 
-          <Text style={[styles.bodyCopy, styles.textBlack]}>SERVING SIZE:</Text>
-          <Picker
-            style={[styles.picker, styles.bodyCopy, styles.textBlack]}
-            selectedValue={servingSize.type}
-            onValueChange={(itemValue, itemIndex) => setServingSize({ ...servingSize, type: itemValue })}
-          >
-            <Picker.Item label='SERVES' value='SERVES' />
-            <Picker.Item label='MAKES' value='MAKES' />
-          </Picker>
+          <Text style={[styles.bodyCopy, styles.textBlack]}>SERVINGS:</Text>
           <TextInput
             placeholder='Required'
             style={[styles.textInput, styles.textGreyDark]}
             keyboardType='numeric'
-            onChangeText={(number) => setServingSize({ ...servingSize, number })}
+            onChangeText={(number) => setServingSize(number)}
           />
           <Text style={[styles.bodyCopy, styles.textBlack]}>MINS TO MAKE:</Text>
           <TextInput
@@ -424,16 +416,16 @@ export default function AddText ({ navigation }) {
             onPress={() => handleSaveRecipe()}
             disabled={!canSave}
           >
-            <Text style={[styles.buttonText, styles.textWhite]}>SAVE</Text>
+            <Text style={[styles.buttonText, styles.textWhite, { textAlign: 'center' }]}>SAVE</Text>
           </Pressable>
           <Pressable
             style={[styles.button, styles.buttonGreyDark]}
             onPress={() => navigation.navigate('Recipe Book')}
           >
-            <Text style={[styles.buttonText, styles.textWhite]}>CANCEL</Text>
+            <Text style={[styles.buttonText, styles.textWhite, { textAlign: 'center' }]}>CANCEL</Text>
           </Pressable>
-
-        </View>
+          <View style={{ marginBottom: 70 }} />
+        </ScrollView>
       </View>
     </View>
   )

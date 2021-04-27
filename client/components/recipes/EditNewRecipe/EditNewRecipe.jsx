@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Text, View, TextInput, Pressable, Picker } from 'react-native'
+import { Text, View, TextInput, Pressable, ScrollView } from 'react-native'
 import pluralize from 'pluralize'
 import { formatRecipeFromText } from '../../../controllers/recipe.js'
 import { useSelector, useDispatch } from 'react-redux'
@@ -14,7 +14,7 @@ export default function EditNewRecipe ({ route, navigation }) {
   const { recipe } = route.params
 
   const [title, setTitle] = useState(recipe.title)
-  const [servingSize, setServingSize] = useState({ ...recipe.servingSize })
+  const [servingSize, setServingSize] = useState(recipe.servingSize)
   const [timeMinutes, setTimeMinutes] = useState(recipe.timeMinutes)
   const [ingredients, setIngredients] = useState([...recipe.ingredients])
   const [steps, setSteps] = useState([...recipe.steps])
@@ -23,7 +23,7 @@ export default function EditNewRecipe ({ route, navigation }) {
   const [tags, setTags] = useState([...recipe.tags])
   const [rating, setRating] = useState(recipe.rating)
 
-  const canSave = Boolean(title) && Boolean(servingSize.number) && Boolean(timeMinutes) && Boolean(ingredients.length) && Boolean(steps.length)
+  const canSave = Boolean(title) && Boolean(servingSize) && Boolean(timeMinutes) && Boolean(ingredients.length) && Boolean(steps.length)
 
   const [showIngredientForm, setShowIngredientForm] = useState(false)
   const [ingredient, setIngredient] = useState('')
@@ -84,16 +84,16 @@ export default function EditNewRecipe ({ route, navigation }) {
     } else if (!ingredientObj[currentUser.unitPref].unit) {
       const pluralIngredient = pluralize(ingredientObj.name, ingredientObj[currentUser.unitPref].amount)
       return (
-        <Text key={ingredientObj.id} style={[styles.bodyCopy, styles.textGreyDark]}>{'\u2022'} {ingredientObj[currentUser.unitPref].amount} {pluralIngredient}{modifiers}</Text>
+        <Text key={ingredientObj.id + nanoid()} style={[styles.bodyCopy, styles.textGreyDark]}>{'\u2022'} {ingredientObj[currentUser.unitPref].amount} {pluralIngredient}{modifiers}</Text>
       )
     } else if (!units.includes(ingredientObj[currentUser.unitPref].unit)) {
       const pluralUnit = pluralize(ingredientObj[currentUser.unitPref].unit, ingredientObj[currentUser.unitPref].amount, true)
       return (
-        <Text key={ingredientObj.id} style={[styles.bodyCopy, styles.textGreyDark]}>{'\u2022'} {pluralUnit} {ingredientObj.name}{modifiers}</Text>
+        <Text key={ingredientObj.id + nanoid()} style={[styles.bodyCopy, styles.textGreyDark]}>{'\u2022'} {pluralUnit} {ingredientObj.name}{modifiers}</Text>
       )
     } else {
       return (
-        <Text key={ingredientObj.id} style={[styles.bodyCopy, styles.textGreyDark]}>{'\u2022'} {ingredientObj[currentUser.unitPref].amount}{ingredientObj[currentUser.unitPref].unit} {ingredientObj.name}{modifiers}</Text>
+        <Text key={ingredientObj.id + nanoid()} style={[styles.bodyCopy, styles.textGreyDark]}>{'\u2022'} {ingredientObj[currentUser.unitPref].amount}{ingredientObj[currentUser.unitPref].unit} {ingredientObj.name}{modifiers}</Text>
       )
     }
   }
@@ -132,7 +132,7 @@ export default function EditNewRecipe ({ route, navigation }) {
   }
 
   renderRating = (
-    <View style={[styles.ratingContainer, styles.recipeFieldHeader]}>
+    <View style={[styles.ratingContainer, styles.recipeFieldHeader, { alignSelf: 'center' }]}>
       <Pressable
         onPress={() => setRating(1)}
       >
@@ -365,7 +365,7 @@ export default function EditNewRecipe ({ route, navigation }) {
     <View style={styles.mainContainer}>
 
       <View style={styles.contentContainer}>
-        <View style={styles.scrollableItem}>
+        <ScrollView style={styles.scrollableItem}>
 
           <View style={styles.recipeSectionContainer}>
 
@@ -378,21 +378,13 @@ export default function EditNewRecipe ({ route, navigation }) {
             style={[styles.textInput, styles.textGreyDark]}
             onChangeText={(title) => setTitle(title)}
           />
-          <Text style={[styles.bodyCopy, styles.textBlack]}>SERVING SIZE:</Text>
-          <Picker
-            style={[styles.picker, styles.bodyCopy, styles.textBlack]}
-            selectedValue={servingSize.type}
-            onValueChange={(itemValue, itemIndex) => setServingSize({ ...servingSize, type: itemValue })}
-          >
-            <Picker.Item label='SERVES' value='SERVES' />
-            <Picker.Item label='MAKES' value='MAKES' />
-          </Picker>
+          <Text style={[styles.bodyCopy, styles.textBlack]}>SERVINGS:</Text>
           <TextInput
-            value={servingSize.number}
+            value={servingSize}
             placeholder='Required'
             style={[styles.textInput, styles.textGreyDark]}
             keyboardType='numeric'
-            onChangeText={(number) => setServingSize({ ...servingSize, number })}
+            onChangeText={(number) => setServingSize(number)}
           />
           <Text style={[styles.bodyCopy, styles.textBlack]}>MINS TO MAKE:</Text>
           <TextInput
@@ -458,17 +450,18 @@ export default function EditNewRecipe ({ route, navigation }) {
               onPress={() => handleSaveRecipe()}
               disabled={!canSave}
             >
-              <Text style={[styles.buttonText, styles.textWhite]}>SAVE</Text>
+              <Text style={[styles.buttonText, styles.textWhite, { textAlign: 'center' }]}>SAVE</Text>
             </Pressable>
             <Pressable
               style={[styles.button, styles.buttonGreyDark]}
               onPress={() => navigation.navigate('Recipe Book')}
             >
-              <Text style={[styles.buttonText, styles.textWhite]}>CANCEL</Text>
+              <Text style={[styles.buttonText, styles.textWhite, { textAlign: 'center' }]}>CANCEL</Text>
             </Pressable>
 
           </View>
-        </View>
+          <View style={{ marginBottom: 70 }} />
+        </ScrollView>
       </View>
     </View>
   )

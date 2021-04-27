@@ -1,32 +1,19 @@
 import React from 'react'
 import { Text, View } from 'react-native'
-import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
-
-import CurrentPlanScreen from '../../plans/CurrentPlan/CurrentPlan.jsx'
-import NextPlanScreen from '../../plans/NextPlan/NextPlan.jsx'
-
-const Tab = createMaterialBottomTabNavigator()
+import { styles, colors } from '../../../styles/app.jsx'
 
 export default function MealPlan () {
   return (
-    <Tab.Navigator initialRouteName='Home' labeled={false}>
-      <Tab.Screen
-        name='Current Meal Plan' component={CurrentPlanScreen}
-        options={{
-          tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name='home-variant' color={color} size={26} />
-          )
-        }}
-      />
-      <Tab.Screen
-        name='Next Meal Plan' component={NextPlanScreen}
-        options={{
-          tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name='home-variant' color={color} size={26} />
-          )
-        }}
-      />
-    </Tab.Navigator>
+    <View style={styles.mainContainer}>
+      <View style={styles.headerContainer}>
+        <Text style={[styles.heading, styles.textWhite]}>MEAL PLANS</Text>
+      </View>
+
+      <View style={styles.contentContainer}>
+        <MaterialCommunityIcons name='rice' color={colors.yomBlack} size={50} />
+        <Text style={[styles.bodyCopy, styles.textBlack]}>coming soon...</Text>
+      </View>
+    </View>
   )
 }

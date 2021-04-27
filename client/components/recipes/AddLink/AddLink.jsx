@@ -33,10 +33,10 @@ export default function AddLink ({ navigation }) {
             onChangeText={(url) => setUrl(url)}
           />
           <Pressable style={[styles.button, styles.buttonBlack]} disabled={!canSave} onPress={() => handleSaveRecipe()}>
-            <Text style={[styles.buttonText, styles.textWhite]}>SAVE</Text>
+            <Text style={[styles.buttonText, styles.textWhite, { textAlign: 'center' }]}>SAVE</Text>
           </Pressable>
           <Pressable style={[styles.button, styles.buttonGreyDark]} onPress={() => navigation.navigate('Recipe Book')}>
-            <Text style={[styles.buttonText, styles.textWhite]}>CANCEL</Text>
+            <Text style={[styles.buttonText, styles.textWhite, { textAlign: 'center' }]}>CANCEL</Text>
           </Pressable>
         </View>
       </View>

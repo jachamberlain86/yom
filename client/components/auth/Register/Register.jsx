@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { View, Text, TextInput, Pressable } from 'react-native'
 import firebase from 'firebase'
-import { styles } from '../../../styles/app.jsx'
+import { styles, colors } from '../../../styles/app.jsx'
 
 export default function Register () {
   const [user, setUser] = useState({ email: '', password: '', name: '' })
@@ -23,8 +23,6 @@ export default function Register () {
           unitPref: 'uk',
           themePref: 'auto'
         })
-      setUser({ ...user, email: '', password: '', name: '' })
-      setConfirm('')
     } catch (err) {
       console.log(err)
     }
@@ -43,6 +41,7 @@ export default function Register () {
           <TextInput
             style={styles.textInput}
             placeholder='name'
+            placeholderTextColor={colors.yomGreyLight}
             onChangeText={(name) => setUser({ ...user, name })}
           />
           <Text
@@ -53,6 +52,7 @@ export default function Register () {
           <TextInput
             style={styles.textInput}
             placeholder='email'
+            placeholderTextColor={colors.yomGreyLight}
             keyboardType='email-address'
             onChangeText={(email) => setUser({ ...user, email })}
           />
@@ -64,6 +64,7 @@ export default function Register () {
           <TextInput
             style={styles.textInput}
             placeholder='password'
+            placeholderTextColor={colors.yomGreyLight}
             secureTextEntry
             onChangeText={(password) => setUser({ ...user, password })}
           />

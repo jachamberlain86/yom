@@ -1,5 +1,5 @@
 import React from 'react'
-import { Text, View, ScrollView, FlatList } from 'react-native'
+import { Text, View, ScrollView, Pressable } from 'react-native'
 import { useSelector } from 'react-redux'
 
 import { styles } from '../../../styles/app.jsx'
@@ -21,10 +21,17 @@ export default function RecipeList ({ navigation }) {
       </View>
 
       <View style={styles.contentContainer}>
-        <View style={styles.scrollableItem}>
+        <ScrollView style={styles.scrollableItem}>
 
           {renderedRecipes}
-        </View>
+          <Pressable
+            style={[styles.headerContainerInternal, styles.buttonGreyLight]}
+            onPress={() => navigation.navigate('Add Recipe')}
+          >
+            <Text style={[styles.headingInternal, styles.textBlack]}>ADD A RECIPE</Text>
+          </Pressable>
+          <View style={{ marginBottom: 70 }} />
+        </ScrollView>
       </View>
     </View>
   )

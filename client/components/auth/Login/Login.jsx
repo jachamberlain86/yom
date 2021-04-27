@@ -1,7 +1,7 @@
 import React, { useState, setState } from 'react'
 import { View, Text, Button, TextInput, TouchableOpacity, Pressable } from 'react-native'
 import firebase from 'firebase'
-import { styles } from '../../../styles/app.jsx'
+import { styles, colors } from '../../../styles/app.jsx'
 
 export default function Login () {
   const [user, setUser] = useState({ email: '', password: '' })
@@ -29,6 +29,7 @@ export default function Login () {
           <TextInput
             style={styles.textInput}
             placeholder='email'
+            placeholderTextColor={colors.yomGreyLight}
             keyboardType='email-address'
             onChangeText={(email) => setUser({ ...user, email })}
           />
@@ -41,6 +42,7 @@ export default function Login () {
           <TextInput
             style={styles.textInput}
             placeholder='password'
+            placeholderTextColor={colors.yomGreyLight}
             secureTextEntry
             onChangeText={(password) => setUser({ ...user, password })}
           />

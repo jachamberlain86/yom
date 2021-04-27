@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react'
-import { StyleSheet, Text, View, Button, Image } from 'react-native'
+import { StyleSheet, Text, View, Pressable, Image } from 'react-native'
+import * as Permissions from 'expo-permissions'
 import { Camera } from 'expo-camera'
 import * as ImagePicker from 'expo-image-picker'
 import firebase from 'firebase'
 import { nanoid } from '@reduxjs/toolkit'
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
+import { styles, colors } from '../../../styles/app.jsx'
 
 export default function AddImage ({ navigation }) {
   const [hasGalleryPermission, setHasGalleryPermission] = useState(null)
@@ -11,6 +14,7 @@ export default function AddImage ({ navigation }) {
   const [camera, setCamera] = useState(null)
   const [image, setImage] = useState(null)
   const [type, setType] = useState(Camera.Constants.Type.back)
+  const [uploading, setUploading] = useState(false)
 
   useEffect(() => {
     (async () => {
@@ -36,16 +40,18 @@ export default function AddImage ({ navigation }) {
       quality: 1
     })
 
-    console.log('pick image result ', result)
-
     if (!result.cancelled) {
       setImage(result.uri)
     }
   }
 
+  async function handleUpload () {
+    // await uploadLocalImage(image)
+    await uploadImage(image)
+  }
+
   async function uploadImage (uri) {
     const childPath = `post/${firebase.auth().currentUser.uid}/${nanoid()}`
-    console.log(childPath)
     const response = await window.fetch(uri)
     const blob = await response.blob()
 
@@ -53,26 +59,21 @@ export default function AddImage ({ navigation }) {
 
     const result = await uploadTask.on('state_changed',
       (snapshot) => {
-      // Observe state change events such as progress, pause, and resume
-      // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
-        const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-        console.log('Upload is ' + progress + '% done')
+        const uploadProgress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+        console.log('Upload is ' + uploadProgress + '% done')
         switch (snapshot.state) {
-          case firebase.storage.TaskState.PAUSED: // or 'paused'
+          case firebase.storage.TaskState.PAUSED:
             console.log('Upload is paused')
             break
-          case firebase.storage.TaskState.RUNNING: // or 'running'
+          case firebase.storage.TaskState.RUNNING:
             console.log('Upload is running')
             break
         }
       },
       (error) => {
-      // Handle unsuccessful uploads
         console.log(error)
       },
       () => {
-      // Handle successful uploads on complete
-      // For instance, get the download URL: https://firebasestorage.googleapis.com/...
         uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
           console.log('File available at', downloadURL)
           submitToGoogle(downloadURL)
@@ -114,16 +115,12 @@ export default function AddImage ({ navigation }) {
       )
       const parsedResponse = await response.json()
       console.log('parsed response: ', parsedResponse)
-      navigation.navigate('Upload Image', parsedResponse.responses)
+      setUploading(null)
+      setImage(null)
+      navigation.navigate('Upload Image', { text: parsedResponse.responses[0].fullTextAnnotation.text })
     } catch (error) {
       console.log(error)
     }
-  }
-
-  const handleUpload = async () => {
-    console.log('uploading')
-    const result = await uploadImage(image)
-    console.log('uploaded ', result)
   }
 
   if (hasCameraPermission === null || hasGalleryPermission === null) {
@@ -133,10 +130,10 @@ export default function AddImage ({ navigation }) {
     return <Text>No access to camera</Text>
   }
 
-  const cameraControls = image
+  const cameraControls = image || uploading
     ? null
     : (
-      <View style={{ flex: 1 }}>
+      <View style={styles.inputImageContainer}>
         <View style={styles.cameraContainer}>
           <Camera
             ref={ref => setCamera(ref)}
@@ -145,64 +142,63 @@ export default function AddImage ({ navigation }) {
             ratio='1:1'
           />
         </View>
-        <Button
-          title='Change camera'
-          onPress={() => {
-            setType(
-              type === Camera.Constants.Type.back
-                ? Camera.Constants.Type.front
-                : Camera.Constants.Type.back
-            )
-          }}
-        />
-        <Button
-          title='Take picture'
+
+        <Pressable
+          style={styles.cameraButton}
           onPress={() => { takePicture() }}
         />
-        <Button
-          title='Pick image from gallery'
+        <Pressable
+          style={styles.galleryButton}
           onPress={() => { pickImage() }}
-        />
+        >
+          <MaterialCommunityIcons name='image-multiple' color={colors.yomWhite} size={26} />
+        </Pressable>
       </View>
       )
 
-  const selectedImage = image
+  const selectedImage = image && !uploading
     ? (
-      <View style={{ flex: 1 }}>
+      <View style={styles.inputImageContainer}>
         <View style={styles.cameraContainer}>
           <Image source={{ uri: image }} style={styles.fixedRatio} />
         </View>
-        <Button
+        <Pressable
           title='UPLOAD'
+          style={[styles.button, styles.buttonWhite]}
           onPress={() => {
-            {
-              console.log('pressed upload')
-              handleUpload() }
+            console.log('pressed upload')
+            setUploading(true)
+            handleUpload()
           }}
-        />
-        <Button
+        >
+
+          <Text style={[styles.buttonText, styles.textBlack, { textAlign: 'center' }]}>UPLOAD</Text>
+        </Pressable>
+        <Pressable
           title='CANCEL'
+          style={[styles.button, styles.buttonGreyDark]}
           onPress={() => setImage(null)}
-        />
+        >
+          <Text style={[styles.buttonText, styles.textWhite, { textAlign: 'center' }]}>CANCEL</Text>
+        </Pressable>
+      </View>
+      )
+    : null
+
+  const uploadingScreen = uploading
+    ? (
+      <View style={styles.contentContainer}>
+        <MaterialCommunityIcons name='blender' color={colors.yomWhite} size={50} />
+        <Text style={[styles.bodyCopy, styles.textWhite]}>uploading...</Text>
       </View>
       )
     : null
 
   return (
-    <View style={{ flex: 1 }}>
+    <View style={[styles.imagePageContainer, styles.buttonBlack]}>
       {cameraControls}
       {selectedImage}
+      {uploadingScreen}
     </View>
   )
 }
-
-const styles = StyleSheet.create({
-  cameraContainer: {
-    flex: 1,
-    flexDirection: 'row'
-  },
-  fixedRatio: {
-    flex: 1,
-    aspectRatio: 1
-  }
-})

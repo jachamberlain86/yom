@@ -13,11 +13,11 @@ export function formatRecipeFromLink (recipe) {
       ? recipe.title
       : 'No title',
     servingSize: recipe.servings
-      ? { type: 'SERVES', number: recipe.servings }
-      : { type: 'SERVES', number: 0 },
-    timeMinutes: recipe.readyInMinutes
+      ? '' + recipe.servings + ''
+      : null,
+    timeMinutes: '' + recipe.readyInMinutes + ''
       ? recipe.readyInMinutes
-      : 0,
+      : null,
     ingredients: [],
     steps: [],
     notes: '',
@@ -84,7 +84,7 @@ export async function formatRecipeFromText (recipe) {
     }
     if (ingredientString !== '') {
       ingredientString = ingredientString.slice(0, -2)
-      const ingredients = await parseIngredients(ingredientString, recipe.servingSize.number)
+      const ingredients = await parseIngredients(ingredientString, recipe.servingSize)
 
       for (const ingredient of ingredients) {
         formattedIngredients.push(formatIngredientForRecipe(ingredient))

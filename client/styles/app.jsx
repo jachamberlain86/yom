@@ -1,4 +1,7 @@
+import React from 'react'
+
 import { StyleSheet, PixelRatio } from 'react-native'
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 
 export const colors = {
   yomBlack: '#000',
@@ -32,13 +35,49 @@ export const tabBarStyle = {
   backgroundColor: colors.yomBlack
 }
 export const headerStyle = {
-  backgroundColor: colors.yomBlack
-  // flexGrow: 0
+  backgroundColor: colors.yomBlack,
+  height: 100,
+  shadowColor: 'transparent'
 }
 export const headerTitleStyle = {
-  fontSize: regular,
+  fontSize: big,
   fontFamily: yomFont,
   color: colors.yomWhite
+}
+
+export const headerLeftContainerStyle = {
+  padding: regular
+}
+export const headerRightContainerStyle = {
+  padding: regular
+}
+export const headerTitleContainerStyle = {
+  padding: regular
+}
+export const authHeaderOptions = {
+  headerTitleAlign: 'center',
+  headerTitle: 'YOM',
+  headerBackImage: ({ size, color }) => <MaterialCommunityIcons name='chevron-left' color={colors.yomWhite} size={20} />,
+  headerBackTitleVisible: false,
+  headerStyle: headerStyle,
+  headerTitleStyle: headerTitleStyle,
+  headerLeftContainerStyle: headerLeftContainerStyle,
+  headerTitleContainerStyle: headerTitleContainerStyle,
+  cardStyle: { backgroundColor: colors.yomBlack },
+  gestureEnabled: true
+}
+export const mainHeaderOptions = {
+  headerTitleAlign: 'center',
+  headerTitle: 'YOM',
+  headerBackImage: ({ size, color }) => <MaterialCommunityIcons name='chevron-left' color={colors.yomWhite} size={20} />,
+  headerBackTitleVisible: false,
+  headerStyle: headerStyle,
+  headerTitleStyle: headerTitleStyle,
+  headerLeftContainerStyle: headerLeftContainerStyle,
+  headerRightContainerStyle: headerRightContainerStyle,
+  headerTitleContainerStyle: headerTitleContainerStyle,
+  cardStyle: { backgroundColor: colors.yomWhite },
+  gestureEnabled: true
 }
 
 export const styles = StyleSheet.create({
@@ -73,7 +112,6 @@ export const styles = StyleSheet.create({
     marginRight: 'auto',
     flex: 1,
     maxWidth: 600
-    // height: '100%'
   },
   contentContainer: {
     minWidth: 300,
@@ -90,7 +128,6 @@ export const styles = StyleSheet.create({
     borderColor: colors.yomBlack
   },
   headerContainer: {
-    // flewGrow: 0,
     margin: bigger,
     marginTop: big,
     marginBottom: 0,
@@ -98,7 +135,6 @@ export const styles = StyleSheet.create({
     backgroundColor: colors.yomBlack
   },
   headerContainerInternal: {
-    // flewGrow: 0,
     marginTop: small,
     marginBottom: small,
     padding: regular,
@@ -113,22 +149,18 @@ export const styles = StyleSheet.create({
     fontFamily: yomFont
   },
   button: {
-    height: biggest,
-    marginTop: regular,
-    marginBottom: regular,
+    margin: bigger,
+    marginTop: big,
+    marginBottom: 0,
     padding: regular,
-    alignSelf: 'stretch',
-    justifyContent: 'center',
-    alignItems: 'center'
+    backgroundColor: colors.yomBlack
   },
   buttonSmall: {
-    height: big,
+    margin: regular,
     marginTop: small,
-    marginBottom: small,
-    padding: regular,
-    backgroundColor: colors.yomBlack,
-    justifyContent: 'center',
-    alignItems: 'center'
+    marginBottom: 0,
+    padding: small,
+    backgroundColor: colors.yomBlack
   },
   tag: {
     height: big,
@@ -177,11 +209,12 @@ export const styles = StyleSheet.create({
   },
   recipeCardTextContainer: {
     flex: 1,
+    flexDirection: 'row',
     flexWrap: 'wrap',
     padding: small,
     paddingLeft: regular,
     paddingRight: regular,
-    justifyContent: 'flex-end'
+    justifyContent: 'flex-start'
   },
   recipeCardDetailsContainer: {
     flex: 1,
@@ -213,6 +246,7 @@ export const styles = StyleSheet.create({
   },
   textInput: {
     color: colors.yomWhite,
+    width: 220,
     marginTop: small,
     marginBottom: regular,
     padding: small,
@@ -244,9 +278,10 @@ export const styles = StyleSheet.create({
     backgroundColor: colors.yomGreyLight
   },
   buttonText: {
-    fontSize: big,
-    lineHeight: bigger,
-    fontFamily: yomFont
+    fontFamily: yomFont,
+    fontSize: regular,
+    lineHeight: big,
+    textTransform: 'uppercase'
   },
   fieldHeader: {
     fontSize: big,
@@ -290,5 +325,47 @@ export const styles = StyleSheet.create({
   },
   centerHorizontal: {
     alignSelf: 'center'
+  },
+  drawerMenuItem: {
+    paddingTop: regular,
+    paddingBottom: regular,
+    textAlign: 'right'
+  },
+  inputImageContainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'space-around'
+  },
+  cameraContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    maxHeight: '50%'
+  },
+  fixedRatio: {
+    aspectRatio: 1
+  },
+  cameraButton: {
+    margin: 10,
+    backgroundColor: colors.yomWhite,
+    borderStyle: 'solid',
+    borderWidth: 4,
+    borderColor: colors.yomGreyLight,
+    width: 80,
+    height: 80,
+    borderRadius: 40
+  },
+  galleryButton: {
+    margin: 10,
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    alignSelf: 'flex-end',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: colors.yomGreyDark
+  },
+  imagePageContainer: {
+    flex: 1,
+    padding: 20
   }
 })

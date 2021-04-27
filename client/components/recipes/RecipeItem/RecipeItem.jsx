@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
-import { Text, View, Button } from 'react-native'
+import { Text, View, Button, ScrollView } from 'react-native'
 import pluralize from 'pluralize'
+import { nanoid } from '@reduxjs/toolkit'
 import prettyMilliseconds from 'pretty-ms'
 import { useSelector } from 'react-redux'
 import { styles, colors } from '../../../styles/app.jsx'
@@ -61,16 +62,16 @@ export default function RecipeItem ({ route, navigation }) {
     } else if (!ingredientObj[currentUser.unitPref].unit) {
       const pluralIngredient = pluralize(ingredientObj.name, ingredientObj[currentUser.unitPref].amount)
       return (
-        <Text key={ingredientObj.id} style={[styles.bodyCopy, styles.textBlack]}>{'\u2022'} {ingredientObj[currentUser.unitPref].amount} {pluralIngredient}{modifiers}</Text>
+        <Text key={ingredientObj.id + nanoid()} style={[styles.bodyCopy, styles.textBlack]}>{'\u2022'} {ingredientObj[currentUser.unitPref].amount} {pluralIngredient}{modifiers}</Text>
       )
     } else if (!units.includes(ingredientObj[currentUser.unitPref].unit)) {
       const pluralUnit = pluralize(ingredientObj[currentUser.unitPref].unit, ingredientObj[currentUser.unitPref].amount, true)
       return (
-        <Text key={ingredientObj.id} style={[styles.bodyCopy, styles.textBlack]}>{'\u2022'} {pluralUnit} {ingredientObj.name}{modifiers}</Text>
+        <Text key={ingredientObj.id + nanoid()} style={[styles.bodyCopy, styles.textBlack]}>{'\u2022'} {pluralUnit} {ingredientObj.name}{modifiers}</Text>
       )
     } else {
       return (
-        <Text key={ingredientObj.id} style={[styles.bodyCopy, styles.textBlack]}>{'\u2022'} {ingredientObj[currentUser.unitPref].amount}{ingredientObj[currentUser.unitPref].unit} {ingredientObj.name}{modifiers}</Text>
+        <Text key={ingredientObj.id + nanoid()} style={[styles.bodyCopy, styles.textBlack]}>{'\u2022'} {ingredientObj[currentUser.unitPref].amount}{ingredientObj[currentUser.unitPref].unit} {ingredientObj.name}{modifiers}</Text>
       )
     }
   }
@@ -126,32 +127,33 @@ export default function RecipeItem ({ route, navigation }) {
   //   : null
 
   return (
-    <View style={styles.mainContainer}>
-      <View style={styles.contentContainer}>
-
-        <View style={styles.scrollableItem}>
-
-          {/* {menuBtn}
+    <View style={styles.screenContainer}>
+      <View style={styles.mainContainer}>
+        <View style={styles.contentContainer}>
+          <ScrollView style={styles.scrollableItem}>
+            {/* {menuBtn}
           {menu} */}
-          <View style={styles.recipeSectionContainer}>
+            <View style={styles.recipeSectionContainer}>
 
-            <Text style={[styles.heading, styles.textBlack]}>{recipe.title}</Text>
-            <Text style={[styles.bodyCopy, styles.textBlack]}>{recipe.servingSize.type} {recipe.servingSize.number}</Text>
-            <Text style={[styles.bodyCopy, styles.textBlack]}>{prettyTime}</Text>
-            {renderRating}
-          </View>
-          <View style={styles.recipeSectionContainer}>
+              <Text style={[styles.heading, styles.textBlack]}>{recipe.title}</Text>
+              <Text style={[styles.bodyCopy, styles.textBlack]}>{recipe.servingSize} servings</Text>
+              <Text style={[styles.bodyCopy, styles.textBlack]}>{prettyTime}</Text>
+              {renderRating}
+            </View>
+            <View style={styles.recipeSectionContainer}>
 
-            {renderedIngredients}
-          </View>
-          <View style={styles.recipeSectionContainer}>
-            {renderedSteps}
-          </View>
-          {renderNotes}
-          <View style={styles.recipeSectionContainer}>
+              {renderedIngredients}
+            </View>
+            <View style={styles.recipeSectionContainer}>
+              {renderedSteps}
+            </View>
+            {renderNotes}
+            <View style={styles.recipeSectionContainer}>
 
-            <Text style={[styles.bodyCopy, styles.textBlack]}>SOURCE: {recipe.source}</Text>
-          </View>
+              <Text style={[styles.bodyCopy, styles.textBlack]}>SOURCE: {recipe.source}</Text>
+            </View>
+            <View style={{ marginBottom: 70 }} />
+          </ScrollView>
         </View>
       </View>
     </View>

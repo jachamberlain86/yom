@@ -47,7 +47,7 @@ export default function RecipeCard ({ navigation, recipeId }) {
       <View style={styles.recipeCardDetailsContainer}>
         <View style={styles.recipeCardDetailsTextContainer}>
 
-          <Text style={[styles.bodyCopy, styles.textWhite]}>{recipe.servingSize.type} {recipe.servingSize.number}</Text>
+          <Text style={[styles.bodyCopy, styles.textWhite]}>{recipe.servingSize} servings</Text>
           <Text style={[styles.bodyCopy, styles.textWhite]}>{prettyTime}</Text>
           {renderRating}
         </View>
@@ -107,7 +107,7 @@ export default function RecipeCard ({ navigation, recipeId }) {
         <View style={styles.recipeCard}>
           {renderedImage}
           <View style={styles.recipeCardTextContainer}>
-            <Text style={[styles.bodyCopy, styles.textBlack]} numberOfLines={2}>{recipe.title}</Text>
+            <Text style={[styles.bodyCopy, styles.textBlack, { flexShrink: 1 }]} numberOfLines={2}>{recipe.title}</Text>
           </View>
         </View>
         {cardDetails}
