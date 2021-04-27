@@ -47,10 +47,10 @@ export default function Login () {
         </View>
         <Pressable
           disabled={!canLogin}
-          style={[styles.button, styles.buttonWhite]}
+          style={[styles.headerContainerInternal, styles.buttonWhite]}
           onPress={() => onSignIn()}
         >
-          <Text style={[styles.buttonText, styles.textBlack]}>SIGN IN</Text>
+          <Text style={[styles.headingInternal, styles.textBlack, { textAlign: 'center' }]}>SIGN IN</Text>
         </Pressable>
       </View>
     </View>

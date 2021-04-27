@@ -2,6 +2,8 @@ import 'react-native-gesture-handler'
 import React, { useState, useEffect } from 'react'
 import { Provider } from 'react-redux'
 import store from './app/store.js'
+import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs'
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 
 import { styles, headerStyle, headerTitleStyle, colors } from './styles/app.jsx'
 import { useFonts, JosefinSans_600SemiBold } from '@expo-google-fonts/josefin-sans'
@@ -62,8 +64,13 @@ export default function App () {
           <Stack.Navigator
             initialRouteName='Landing'
             screenOptions={{
-              gestureEnabled: true
+              gestureEnabled: true,
+              headerStyle: headerStyle,
+              headerTitleStyle: headerTitleStyle,
+              headerTintStyle: colors.yomWhite,
+              headerBackTitleVisible: false
             }}
+            headerMode='float'
           >
             <Stack.Screen name='Landing' component={LandingScreen} options={{ headerShown: false }} />
             <Stack.Screen name='Login' component={LoginScreen} />

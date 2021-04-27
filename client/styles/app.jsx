@@ -66,14 +66,17 @@ export const styles = StyleSheet.create({
     marginRight: 'auto',
     flex: 1,
     justifyContent: 'center',
-    paddingLeft: biggest,
-    paddingRight: biggest
+    minWidth: 200
   },
   mainContainer: {
-    flex: 1
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    flex: 1,
+    maxWidth: 600
     // height: '100%'
   },
   contentContainer: {
+    minWidth: 300,
     flexGrow: 1,
     overflow: 'hidden',
     position: 'relative',
@@ -144,7 +147,8 @@ export const styles = StyleSheet.create({
     right: 0,
     bottom: 0,
     overflow: 'scroll',
-    padding: big
+    padding: big,
+    minWidth: 200
   },
   fixedItem: {
     overflow: 'scroll',

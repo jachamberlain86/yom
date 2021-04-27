@@ -5,8 +5,9 @@ import { fetchUser } from '../../../features/User/userSlice.js'
 import { fetchRecipes } from '../../../features/Recipes/recipesSlice.js'
 import { styles, colors } from '../../../styles/app.jsx'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
+import firebase from 'firebase'
 
-export default function Home () {
+export default function Home ({ navigation }) {
   const dispatch = useDispatch()
   const userStatus = useSelector(state => state.user.status)
   const userError = useSelector(state => state.user.error)
@@ -23,6 +24,14 @@ export default function Home () {
       dispatch(fetchRecipes())
     }
   }, [userStatus, recipesStatus, dispatch])
+
+  function handleLogOut () {
+    firebase.auth().signOut().then(() => {
+      // Sign-out successful.
+    }).catch((err) => {
+      console.log(err)
+    })
+  }
 
   let homeContent
 
@@ -57,6 +66,11 @@ export default function Home () {
           style={[styles.headerContainerInternal, styles.buttonGreyLight]}
         >
           <Text style={[styles.headingInternal, styles.textBlack]}>ADD A RECIPE</Text>
+        </Pressable>
+        <Pressable
+          style={[styles.headerContainerInternal]}
+        >
+          <Text style={[styles.headingInternal, styles.textWhite]} onPress={() => handleLogOut()}>LOG OUT</Text>
         </Pressable>
 
       </View>

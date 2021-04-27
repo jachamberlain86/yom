@@ -81,10 +81,10 @@ export default function Register () {
         </View>
         <Pressable
           disabled={!canRegister}
-          style={[styles.button, styles.buttonGreyDark]}
+          style={[styles.headerContainerInternal, styles.buttonGreyDark]}
           onPress={() => onSignUp()}
         >
-          <Text style={[styles.buttonText, styles.textWhite]}>SIGN UP</Text>
+          <Text style={[styles.headingInternal, styles.textWhite, { textAlign: 'center' }]}>SIGN UP</Text>
         </Pressable>
       </View>
     </View>
