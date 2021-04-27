@@ -15,6 +15,7 @@ export default function AddImage ({ navigation }) {
   const [image, setImage] = useState(null)
   const [type, setType] = useState(Camera.Constants.Type.back)
   const [uploading, setUploading] = useState(false)
+  const [status, setStatus] = useState(null)
 
   useEffect(() => {
     (async () => {
@@ -145,7 +146,9 @@ export default function AddImage ({ navigation }) {
 
         <Pressable
           style={styles.cameraButton}
-          onPress={() => { takePicture() }}
+          onPress={() => {
+            takePicture()
+          }}
         />
         <Pressable
           style={styles.galleryButton}

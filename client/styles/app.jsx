@@ -163,14 +163,11 @@ export const styles = StyleSheet.create({
     backgroundColor: colors.yomBlack
   },
   tag: {
-    height: big,
+    margin: regular,
     marginTop: small,
-    marginBottom: small,
-    padding: regular,
-    backgroundColor: colors.yomGreyDark,
-    justifyContent: 'center',
-    alignItems: 'center',
-    textTransform: 'uppercase'
+    marginBottom: regular,
+    padding: small,
+    backgroundColor: colors.yomGreyDark
   },
   scrollableItem: {
     position: 'absolute',

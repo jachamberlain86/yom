@@ -111,7 +111,7 @@ export default function EditNewRecipe ({ route, navigation }) {
   const renderedTags = tags.map(savedTag => {
     return (
       <View key={savedTag} style={[styles.tag]}>
-        <Text style={[styles.bodyCopy, styles.textWhite]}>{'\u2022'} {savedTag}</Text>
+        <Text style={[styles.bodyCopy, styles.textWhite, { textTransform: 'uppercase' }]}>{'\u2022'} {savedTag}</Text>
       </View>
     )
   })

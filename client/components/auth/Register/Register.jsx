@@ -76,6 +76,7 @@ export default function Register () {
           <TextInput
             style={styles.textInput}
             placeholder='confirm password'
+            placeholderTextColor={colors.yomGreyLight}
             secureTextEntry
             onChangeText={(text) => setConfirm(text)}
           />

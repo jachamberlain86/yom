@@ -13,10 +13,10 @@ export function formatRecipeFromLink (recipe) {
       ? recipe.title
       : 'No title',
     servingSize: recipe.servings
-      ? '' + recipe.servings + ''
+      ? `${recipe.servings}`
       : null,
-    timeMinutes: '' + recipe.readyInMinutes + ''
-      ? recipe.readyInMinutes
+    timeMinutes: recipe.readyInMinutes
+      ? `${recipe.readyInMinutes}`
       : null,
     ingredients: [],
     steps: [],

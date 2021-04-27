@@ -12,6 +12,7 @@ export default function AddLink ({ navigation }) {
   async function handleSaveRecipe () {
     try {
       const response = await getRecipeFromLink(url)
+      console.log(response)
       const recipe = formatRecipeFromLink(response)
       navigation.navigate('Edit New Recipe', { recipe })
     } catch (err) {
