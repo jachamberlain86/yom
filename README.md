@@ -10,6 +10,15 @@
        <source src="https://github.com/jachamberlain86/content-assets/blob/3c75f423322ff55938311058b1af846c151c8d06/YOM-demo.mp4" type="video/mp4">
 </video>
 
+<code><img alt="JavaScript" src="https://img.shields.io/badge/-JavaScript-F7DF1E?logo=javascript&logoColor=black&style=for-the-badge"></code>
+<code><img alt="CSS3" src="https://img.shields.io/badge/-CSS3-1572B6?logo=css3&logoColor=white&style=for-the-badge"></code>
+<code><img alt="HTML5" src="https://img.shields.io/badge/-HTML5-E34F26?logo=html5&logoColor=white&style=for-the-badge"></code>
+<code><img alt="React Native" src="https://img.shields.io/badge/-React%20Native-61DAFB?logo=react&logoColor=white&style=for-the-badge"></code>
+<code><img alt="Expo" src="https://img.shields.io/badge/-Expo-000020?logo=expo&logoColor=white&style=for-the-badge"></code>
+<code><img alt="Redux Toolkit" src="https://img.shields.io/badge/-Redux%20Toolkit-764ABC?logo=redux&logoColor=white&style=for-the-badge"></code>
+<code><img alt="Firebase" src="https://img.shields.io/badge/-Firebase-FFCA28?logo=firebase&logoColor=black&style=for-the-badge"></code>
+<code><img alt="Google Cloud" src="https://img.shields.io/badge/-Google%20Cloud-4285F4?logo=google-cloud&logoColor=white&style=for-the-badge"></code>
+
 ## The Meal
 
 YOM stores all your favourite recipes in one place.
