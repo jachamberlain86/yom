@@ -1,13 +1,14 @@
-# YOM
+<p align="center">
+<img width="1000" alt="YOM recipe upload screens" src="https://github.com/jachamberlain86/content-assets/blob/3c75f423322ff55938311058b1af846c151c8d06/YOM-title.png">
+</p>
 
-## One app. All your recipes.
 
+# YOM: One app - all your recipes.
+[Watch the video](https://www.youtube.com/watch?v=D4SWx5pM1wk&t=4s)
 
-<video controls poster="/assets/YOM-title.png" alt="YOM overview video">
-       <source src="/assets/YOM-demo.mp4" type="video/mp4">
+<video controls poster="https://github.com/jachamberlain86/content-assets/blob/30d42479369d017d02bf06fce630302dd8348f84/YOM-poster.png" alt="YOM overview video">
+       <source src="https://github.com/jachamberlain86/content-assets/blob/3c75f423322ff55938311058b1af846c151c8d06/YOM-demo.mp4" type="video/mp4">
 </video>
-
-
 
 ## The Meal
 
@@ -18,11 +19,9 @@ YOM garnishes recipes with features such as unit conversions, custom notes, tags
 
 YOM has been built for iOS and Android.
 
-
-
-![YOM recipe upload screens](/assets/YOM-upload.png)
-
-
+<p align="center">
+<img width="700" alt="YOM recipe upload screens" src="https://github.com/jachamberlain86/content-assets/blob/30d42479369d017d02bf06fce630302dd8348f84/YOM-upload.png">
+</p>
 
 ## The Ingredients
 
@@ -31,11 +30,9 @@ Although I had not used any of these technologies prior to starting development,
 
 A mobile app, built at speed, with secure authentication and storage, and camera functionality with image to text capabalities.
 
-
-
-![YOM recipe list screen](/assets/YOM-list.png)
-
-
+<p align="center">
+<img width="700" alt="YOM recipe list screen" src="https://github.com/jachamberlain86/content-assets/blob/30d42479369d017d02bf06fce630302dd8348f84/YOM-list.png">
+</p>
 
 ## The Recipe
 
@@ -46,11 +43,9 @@ Add a .env file at the root of /client following the structure provided in .env.
 To start using YOM through Expo run 'expo start -c' from /client.
 To run on a mobile device, download the Expo for either [iOS](https://apps.apple.com/us/app/expo-go/id982107779) or [Android](https://play.google.com/store/apps/details?id=host.exp.exponent) and scan the QR code that's provided in your browser once the project compiles.
 
-
-
-![YOM recipe and coming soon screens](/assets/YOM-soon.png)
-
-
+<p align="center">
+<img width="700" alt="YOM recipe and coming soon screens" src="https://github.com/jachamberlain86/content-assets/blob/30d42479369d017d02bf06fce630302dd8348f84/YOM-soon.png">
+</p>
 
 ## To Do...
 
