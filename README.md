@@ -3,8 +3,8 @@
 ## One app. All your recipes.
 
 
-<video controls poster="/Users/jachamberlain/Desktop/Screenshot 2021-05-21 at 20.11.45.png" alt="YOM overview video">
-       <source src="/Users/jachamberlain/dev-projects/codeworks-exercises/solo-project/YOM Demo.mp4" type="video/mp4">
+<video controls poster="/assets/YOM-title.png" alt="YOM overview video">
+       <source src="/assets/YOM-demo.mp4" type="video/mp4">
 </video>
 
 
@@ -20,7 +20,7 @@ YOM has been built for iOS and Android.
 
 
 
-![YOM recipe upload screens](/Users/jachamberlain/Desktop/Screenshot 2021-05-21 at 20.04.41.png)
+![YOM recipe upload screens](/assets/YOM-upload.png)
 
 
 
@@ -33,7 +33,7 @@ A mobile app, built at speed, with secure authentication and storage, and camera
 
 
 
-![YOM recipe list screen](/Users/jachamberlain/Desktop/Screenshot 2021-05-21 at 20.04.56.png)
+![YOM recipe list screen](/assets/YOM-list.png)
 
 
 
@@ -48,7 +48,7 @@ To run on a mobile device, download the Expo for either [iOS](https://apps.apple
 
 
 
-![YOM recipe and coming soon screens](/Users/jachamberlain/Desktop/Screenshot 2021-05-21 at 20.05.25.png)
+![YOM recipe and coming soon screens](/assets/YOM-soon.png)
 
 
 
