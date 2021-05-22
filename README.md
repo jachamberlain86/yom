@@ -46,11 +46,18 @@ A mobile app, built at speed, with secure authentication and storage, and camera
 
 ## The Recipe
 
-To set YOM up locally, run 'npm i' from /client.
+To set YOM up locally and install dependencies from the CLI, navigate to /client and execute:
+```
+npm i
+```
 
 Add a .env file at the root of /client following the structure provided in .env.example in /client. Register with [Google Firebase](https://console.firebase.google.com/u/0/), [Google Cloud Vision API](https://console.cloud.google.com/marketplace/product/google/vision.googleapis.com?q=search&referrer=search), and [Rapid API](https://rapidapi.com/spoonacular/api/recipe-food-nutrition) to receive the necessary credentials.
 
-To start using YOM through Expo run 'expo start -c' from /client.
+To start using YOM through Expo from the CLI, navigate to /client and execute:
+```
+expo start -c
+```
+
 To run on a mobile device, download the Expo for either [iOS](https://apps.apple.com/us/app/expo-go/id982107779) or [Android](https://play.google.com/store/apps/details?id=host.exp.exponent) and scan the QR code that's provided in your browser once the project compiles.
 
 <p align="center">
