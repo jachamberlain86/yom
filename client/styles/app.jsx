@@ -18,18 +18,10 @@ const yomFont = 'JosefinSans_600SemiBold'
 const ratio = 1.5
 const regular = 16 * PixelRatio.getFontScale()
 const small = regular / ratio
-const smaller = small / ratio
-const smallest = smaller / ratio
-const tiny = smallest / ratio
-const tinier = tiny / ratio
-const tiniest = tinier / ratio
 const big = regular * ratio
 const bigger = big * ratio
 const biggest = bigger * ratio
 const huge = biggest * ratio
-const huger = huge * ratio
-const hugest = huger * ratio
-const giant = hugest * ratio
 
 export const tabBarStyle = {
   backgroundColor: colors.yomBlack
@@ -84,8 +76,6 @@ export const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
     backgroundColor: colors.yomBlack
-    // width: '100%',
-    // height: '100%'
   },
   bottomTabNav: {
     backgroundColor: colors.yomBlack
@@ -316,9 +306,6 @@ export const styles = StyleSheet.create({
   },
   recipeFieldHeader: {
     marginTop: small
-  },
-  centerVertical: {
-    // justifySelf: 'center'
   },
   centerHorizontal: {
     alignSelf: 'center'
