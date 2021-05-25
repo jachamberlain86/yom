@@ -13,7 +13,6 @@ export default function Home ({ navigation }) {
   const dispatch = useDispatch()
   const userStatus = useSelector(state => state.user.status)
   const userError = useSelector(state => state.user.error)
-  const currentUser = useSelector(state => state.user.currentUser)
   const recipesStatus = useSelector(state => state.recipes.status)
   const recipesError = useSelector(state => state.recipes.error)
   const recipes = useSelector(state => state.recipes.recipes)
@@ -26,14 +25,6 @@ export default function Home ({ navigation }) {
       dispatch(fetchRecipes())
     }
   }, [userStatus, recipesStatus, dispatch])
-
-  function handleLogOut () {
-    firebase.auth().signOut().then(() => {
-      // Sign-out successful.
-    }).catch((err) => {
-      console.log(err)
-    })
-  }
 
   const renderRecipes = recipes.length
     ? (

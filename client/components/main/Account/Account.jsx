@@ -1,6 +1,6 @@
 import React from 'react'
 import { View, Text, Pressable, ScrollView } from 'react-native'
-import { styles, colors } from '../../../styles/app.jsx'
+import { styles } from '../../../styles/app.jsx'
 import { useSelector } from 'react-redux'
 
 export default function Account ({ navigation }) {
