@@ -12,7 +12,6 @@ export async function getRecipeFromLink (url) {
     })
     const parsedResponse = await response.json()
     return parsedResponse
-    console.log(parsedResponse)
   } catch (err) {
     console.error(err)
   }

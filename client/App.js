@@ -2,7 +2,7 @@ import 'react-native-gesture-handler'
 import React, { useState, useEffect } from 'react'
 import { Provider } from 'react-redux'
 import store from './app/store.js'
-import { MainStackNavigator, AuthStackNavigator, SideMenuDrawerNavigator } from './navigation/AppNavigator/AppNavigator.jsx'
+import { AuthStackNavigator, SideMenuDrawerNavigator } from './navigation/AppNavigator/AppNavigator.jsx'
 
 import { useFonts, JosefinSans_600SemiBold } from '@expo-google-fonts/josefin-sans'
 import AppLoading from 'expo-app-loading'
