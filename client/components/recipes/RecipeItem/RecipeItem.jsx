@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { Text, View, Button, ScrollView } from 'react-native'
+import React from 'react'
+import { Text, View, ScrollView } from 'react-native'
 import pluralize from 'pluralize'
 import { nanoid } from '@reduxjs/toolkit'
 import prettyMilliseconds from 'pretty-ms'
@@ -12,8 +12,6 @@ export default function RecipeItem ({ route, navigation }) {
   const { recipeId } = route.params
   const currentUser = useSelector(state => state.user.currentUser)
   const recipe = useSelector(state => selectRecipeById(state, recipeId))
-
-  const [showMenu, setShowMenu] = useState(false)
 
   const timeMilliseconds = recipe.timeMinutes * 60000
   const prettyTime = prettyMilliseconds(timeMilliseconds, { secondsDecimalDigits: 0, verbose: true })
@@ -94,45 +92,11 @@ export default function RecipeItem ({ route, navigation }) {
     )
   }
 
-  // const menuBtn = showMenu
-  //   ? (
-  //     <Button
-  //       title='CANCEL'
-  //       onPress={() => {
-  //         setShowMenu(false)
-  //       }}
-  //     />
-  //     )
-  //   : (
-  //     <Button
-  //       title='MENU'
-  //       onPress={() => setShowMenu(true)}
-  //     />
-  //     )
-
-  // const menu = showMenu
-  //   ? (
-  //     <View>
-  //       <Button
-  //         title='EDIT'
-  //       />
-  //       <Button
-  //         title='DELETE'
-  //       />
-  //       <Button
-  //         title='ADD TO MENU'
-  //       />
-  //     </View>
-  //     )
-  //   : null
-
   return (
     <View style={styles.screenContainer}>
       <View style={styles.mainContainer}>
         <View style={styles.contentContainer}>
           <ScrollView style={styles.scrollableItem}>
-            {/* {menuBtn}
-          {menu} */}
             <View style={styles.recipeSectionContainer}>
 
               <Text style={[styles.heading, styles.textBlack]}>{recipe.title}</Text>

@@ -1,18 +1,16 @@
 import React, { useState } from 'react'
 import { Text, View, Pressable, Image } from 'react-native'
 import prettyMilliseconds from 'pretty-ms'
-import { useSelector, useDispatch } from 'react-redux'
-import { selectRecipeById, putRecipe, toggleInMenu } from '../../../features/Recipes/recipesSlice.js'
+import { useSelector } from 'react-redux'
+import { selectRecipeById } from '../../../features/Recipes/recipesSlice.js'
 import { styles, colors } from '../../../styles/app.jsx'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 
 export default function RecipeCard ({ navigation, recipeId }) {
   const recipe = useSelector(state => selectRecipeById(state, recipeId))
-  const dispatch = useDispatch()
 
   const [cardDetails, setCardDetails] = useState(null)
-  const [inMenu, setInMenu] = useState(recipe.inMenu)
-  const [image, setImage] = useState(recipe.imageUrl)
+  const [image] = useState(recipe.imageUrl)
 
   const timeMilliseconds = recipe.timeMinutes * 60000
   const prettyTime = prettyMilliseconds(timeMilliseconds, { secondsDecimalDigits: 0, verbose: true })
@@ -60,34 +58,6 @@ export default function RecipeCard ({ navigation, recipeId }) {
     )
   }
 
-  function handleMenuBtn () {
-    const updatedRecipe = { ...recipe }
-    updatedRecipe.inMenu = !inMenu
-  }
-
-  const renderMenuBtn = inMenu
-    ? (
-      <Pressable
-        onPress={() => {
-          setInMenu(false)
-          handleMenuBtn()
-        }}
-      >
-        <Text>-</Text>
-      </Pressable>
-      )
-    : (
-      <Pressable
-        title='+'
-        onPress={() => {
-          setInMenu(true)
-          handleMenuBtn()
-        }}
-      >
-        <Text>+</Text>
-      </Pressable>
-      )
-
   const renderedImage = image
     ? (
       <Image source={{ uri: image }} style={styles.recipeCardImage} />
@@ -112,13 +82,6 @@ export default function RecipeCard ({ navigation, recipeId }) {
         </View>
         {cardDetails}
       </Pressable>
-      {/* <Pressable
-        title='DELETE'
-      >
-        <View style={[styles.recipeCardIcon, styles.recipeCardIconRed]}>
-          <MaterialCommunityIcons name='trash-can' color={colors.yomWhite} size={24} />
-        </View>
-      </Pressable> */}
     </View>
   )
 }

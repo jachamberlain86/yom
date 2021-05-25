@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { Text, View, TextInput, Button } from 'react-native'
+import React from 'react'
+import { View, Button } from 'react-native'
 import { styles } from '../../../styles/app.jsx'
 
 export default function AddRecipe ({ navigation }) {

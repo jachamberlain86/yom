@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Text, View, TextInput, Picker, Pressable, ScrollView } from 'react-native'
+import { Text, View, TextInput, Pressable, ScrollView } from 'react-native'
 import { formatRecipeFromText } from '../../../controllers/recipe.js'
 import { useDispatch } from 'react-redux'
 import { nanoid } from '@reduxjs/toolkit'

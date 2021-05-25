@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { StyleSheet, Text, View, Pressable, Image } from 'react-native'
-import * as Permissions from 'expo-permissions'
+import { Text, View, Pressable, Image } from 'react-native'
 import { Camera } from 'expo-camera'
 import * as ImagePicker from 'expo-image-picker'
 import firebase from 'firebase'
@@ -13,9 +12,8 @@ export default function AddImage ({ navigation }) {
   const [hasCameraPermission, setHasCameraPermission] = useState(null)
   const [camera, setCamera] = useState(null)
   const [image, setImage] = useState(null)
-  const [type, setType] = useState(Camera.Constants.Type.back)
+  const [type] = useState(Camera.Constants.Type.back)
   const [uploading, setUploading] = useState(false)
-  const [status, setStatus] = useState(null)
 
   useEffect(() => {
     (async () => {
@@ -47,7 +45,6 @@ export default function AddImage ({ navigation }) {
   }
 
   async function handleUpload () {
-    // await uploadLocalImage(image)
     await uploadImage(image)
   }
 
