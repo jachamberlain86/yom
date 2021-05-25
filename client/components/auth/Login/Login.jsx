@@ -1,5 +1,5 @@
-import React, { useState, setState } from 'react'
-import { View, Text, Button, TextInput, TouchableOpacity, Pressable } from 'react-native'
+import React, { useState } from 'react'
+import { View, Text, TextInput, Pressable } from 'react-native'
 import firebase from 'firebase'
 import { styles, colors } from '../../../styles/app.jsx'
 
