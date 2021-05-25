@@ -1,17 +1,14 @@
 import React from 'react'
-import { StyleSheet, Text, View, Pressable } from 'react-native'
-import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context'
-
-import firebase from 'firebase'
+import { SafeAreaProvider } from 'react-native-safe-area-context'
 
 import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
 
-import { styles, colors, tabBarStyle, mainHeaderOptions, authHeaderOptions } from '../../styles/app.jsx'
+import { colors, tabBarStyle, mainHeaderOptions, authHeaderOptions } from '../../styles/app.jsx'
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 
-import { createDrawerNavigator, DrawerContentScrollView, DrawerItem } from '@react-navigation/drawer'
+import { createDrawerNavigator } from '@react-navigation/drawer'
 
 import SideMenuIcon from '../../components/main/SideMenuIcon/SideMenuIcon.jsx'
 
@@ -28,7 +25,6 @@ import EditNewRecipeScreen from '../../components/recipes/EditNewRecipe/EditNewR
 import HomeScreen from '../../components/main/Home/Home.jsx'
 import ShoppingListScreen from '../../components/main/ShoppingList/ShoppingList.jsx'
 import RecipeListScreen from '../../components/recipes/RecipeList/RecipeList.jsx'
-import SideMenuScreen from '../../components/main/SideMenu/SideMenu.jsx'
 import AccountScreen from '../../components/main/Account/Account.jsx'
 import CustomDrawerButtons from '../CustomDrawerButtons/CustomDrawerButtons.jsx'
 
