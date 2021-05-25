@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState } from 'react'
 import { View, Text, ScrollView, TextInput, Pressable } from 'react-native'
 import { styles, colors } from '../../../styles/app.jsx'
 import DropDownPicker from 'react-native-dropdown-picker'
@@ -7,7 +7,7 @@ export default function UploadImage ({ route, navigation }) {
   console.log(route.params)
 
   const [textBlocks, setTextBlocks] = useState([])
-  const [items, setItems] = useState(
+  const [items] = useState(
     [{ label: 'IGNORE', value: 'IGNORE' }, { label: 'TITLE', value: 'TITLE' }, { label: 'SERVINGS', value: 'TITLE' }, { label: 'TIME', value: 'TITLE' }, { label: 'INGREDIENT', value: 'INGREDIENT' }, { label: 'STEP', value: 'STEP' }, { label: 'NOTE', value: 'NOTE' }]
   )
 
